@@ -154,7 +154,7 @@ from: markdown+emoji
 
 Aulas
 
-- Segunda-feira das 13:20 ~ 17:10   
+- Segunda-feira das 13:20 ~ 17:00   
 
 :::{.fragment}
 - **Tolerância:** 10 minutos 
