@@ -347,12 +347,55 @@ A desonestidade em nosso trabalho representa uma **grave violação ética**.
 ![](https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2M5aDBubmxqcnVsMHpobXZ2Yjd4N3VjbnZlOGYwNm5wOXQ2cHk3aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lraXagM6W2ae23iiRC/giphy.gif){fig-align="center" width="20%"}
 
 :::{.justificado}
+
 - Se você faltar em uma aula, é **sua responsabilidade** saber o que foi discutido;
 
 - Sair da aula com a sensação de que entendeu a materia não é um indício de que você entendeu a matéria, e nem de que a matéria é fácil. **Faça exercícios e leia um livro**.
 
 - **Estar nesta disciplina é uma decisão sua**. Por isso, espero postura, respeito e responsabilidade com a disciplina.
 :::
+
+## International Data Quest 🌍
+
+<br>
+
+Competição internacional de dados organizado pelo [*Committee on International Relations in Statistics*](https://community.amstat.org/committeeoninternationalrelationsinstatistics/events2/data-quest)
+
+<br>
+
+👩‍🎓 Quem pode participar?
+
+➡️ **Público-alvo**: estudantes de graduação e mestrado (em qualquer área!).
+
+➡️ **Equipes**: de 2 a 4 participantes (somente graduação ou somente mestrado).
+
+---
+
+➡️ **Países participantes na 1ª edição**: Brasil, Indonésia e Turquia.
+
+➡️ **Competição em duas fases**: nacional e internacional.
+
+<br>
+
+:::{.fragment}
+🏆 Prêmios:
+
+1. Best Data Visualization
+
+2. Best Consideration of Ethics
+
+3. Best Statistical Insight
+:::
+
+---
+
+📅 Datas importantes:
+
+🔹 **Divulgação dos dados**: 6 de outubro
+
+🔹 **Registro de equipes**: até 18 de outubro (aconselhamos até 11 de outubro)
+
+🔹 **Submissões (vídeo + slides)**: até 25 de outubro
 
 ---
 
