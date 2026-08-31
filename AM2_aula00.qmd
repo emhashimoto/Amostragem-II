@@ -184,7 +184,7 @@ Sala 04 - Bloco VI
 <br>
 
 :::{.fragment}
-✅ Amostragem de populações móveis
+✅ Estimação com probabilidades desiguais
 :::
 
 ## 📚 Bibliografia básica 
