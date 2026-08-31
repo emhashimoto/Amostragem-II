@@ -132,7 +132,9 @@ from: markdown+emoji
 
 - Nome
 
-- Em uma aula, eu devo abrir o notebook ou o celular quando ... 
+- Qual sabor de pizza, você mais gosta?
+
+- O que você mais lembra de Amostragem I?
 
 ![](https://media.giphy.com/media/TKNGghpLhaz9XH1tSj/giphy.gif){fig-align="right" width=35% height=35%}
 
@@ -155,6 +157,7 @@ from: markdown+emoji
 Aulas
 
 - Segunda-feira das 13:20 ~ 17:00   
+Sala 04 - Bloco VI
 
 :::{.fragment}
 - **Tolerância:** 10 minutos 
@@ -265,7 +268,7 @@ Haverá listas de exercícios para serem resolvidas em casa. Resolver os problem
 ## 📝 Provas 
 
 :::{.justificado}
-Haverá duas avaliações que vão cobrir o conteúdo abordado em sala de aula, as listas de exercícios e as bibliografias citadas. As soluções de cada uma das provas devem estar bem **organizadas** e **justificadas**. Desta forma, você irá demonstrar sua capacidade de comunicar os seus resultados. Se a prova estiver **difícil de compreender** devido a organização e passagens não justificadas, haverá **penalidades**.
+Haverá três avaliações que vão cobrir o conteúdo abordado em sala de aula, as listas de exercícios e as bibliografias citadas. As soluções de cada uma das provas devem estar bem **organizadas** e **justificadas**. Desta forma, você irá demonstrar sua capacidade de comunicar os seus resultados. Se a prova estiver **difícil de compreender** devido a organização e passagens não justificadas, haverá **penalidades**.
 :::
 
 :::{.columns}
