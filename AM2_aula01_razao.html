@@ -150,19 +150,685 @@ Elizabeth Mie Hashimoto
 </div>
 
 </section>
+<section>
 <section id="estimadores-do-tipo-razão" class="title-slide slide level1 center" data-background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)">
 <h1>Estimadores do tipo razão</h1>
 
 </section>
-
-<section>
-<section id="título-no-meio-da-apresentação" class="title-slide slide level1 center">
-<h1>Título no Meio da Apresentação</h1>
-<!-- Este slide será gerado como um "Title Slide" de seção -->
+<section id="objetivo-da-aula" class="slide level2">
+<h2>🎯Objetivo da aula</h2>
+<p><br></p>
+<ul>
+<li><p>Definir os estimadores tipos razão: AAS</p></li>
+<li><p>Obtenção do tamanho da amostra</p></li>
+</ul>
 </section>
-<section id="slide-normal-2" class="slide level2">
-<h2>Slide Normal 2</h2>
-<p>Conteúdo do slide seguinte.</p>
+<section id="estudo-de-simulação-1" class="slide level2">
+<h2>💻Estudo de Simulação 1</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>População:</strong> <span class="math inline">\(N = 1.000\)</span></li>
+<li><strong>Amostra:</strong> <span class="math inline">\(n = 30\)</span></li>
+<li><strong>Réplicas:</strong> <span class="math inline">\(r = 2.000\)</span></li>
+<li><strong>Média Alvo (Fixa):</strong> <span class="math inline">\(\mu_Y = 2,5 \cdot \bar{X}\)</span></li>
+<li><strong>Níveis de <span class="math inline">\(\rho\)</span>:</strong> <span class="math inline">\(\{0,20; 0,50; 0,80; 0,98\}\)</span></li>
+<li><strong>Semente:</strong> <code>set.seed(2026)</code></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>Auxiliar:</strong> <span class="math inline">\(X \sim \mathcal{U}(10, 100)\)</span></li>
+<li><strong>Erro:</strong> <span class="math inline">\(\epsilon \sim \mathcal{N}\left(0, \sigma_{\epsilon}^2(\rho)\right)\)</span></li>
+<li><strong>Condição:</strong> <span class="math inline">\(\bar{\epsilon} = 0\)</span> (forçado)</li>
+</ul>
+</div></div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="AM2_aula01_razao_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="estudo-de-simulação-2" class="slide level2">
+<h2>💻Estudo de Simulação 2</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<ul>
+<li><strong>População:</strong> <span class="math inline">\(N = 1.000\)</span></li>
+<li><strong>Amostra:</strong> <span class="math inline">\(n = 30\)</span></li>
+<li><strong>Simulações:</strong> <span class="math inline">\(r = 1.000\)</span></li>
+<li><strong>Semente:</strong> <code>set.seed(42)</code></li>
+<li><strong>Auxiliar:</strong> <span class="math inline">\(X \sim \mathcal{U}(10, 100)\)</span></li>
+<li><strong>Erro:</strong> <span class="math inline">\(\epsilon \sim \mathcal{N}(0, 15^2)\)</span></li>
+<li><strong>Interesse:</strong> <span class="math inline">\(Y = 2,5X + \epsilon\)</span></li>
+</ul>
+</div><div class="column" style="width:55%;">
+<div class="fragment">
+<ul>
+<li><p>Amostragem aleatória simples (AAS)</p></li>
+<li><p>Média simples</p></li>
+<li><p>Estimativa tipo razão</p></li>
+</ul>
+</div>
+</div></div>
+</section>
+<section class="slide level2">
+
+
+<img data-src="AM2_aula01_razao_files/figure-revealjs/unnamed-chunk-2-1.png" width="864" class="r-stretch"></section>
+<section id="estimador-da-razão-populacional-com-aas" class="slide level2" style="font-size: 0.75em;">
+<h2>Estimador da razão populacional com AAS</h2>
+<ul>
+<li><strong>Exemplo 1: Pesquisa Americana de Habitação</strong></li>
+</ul>
+<p>A Pesquisa Americana de Habitação (<em>American Housing Survey</em>) do governo dos EUA acompanha diversos aspectos das características habitacionais no país, incluindo os custos mensais para proprietários e o valor dos imóveis.</p>
+<p>Um dos aspectos da pesquisa acompanha <strong>47 áreas estatísticas metropolitanas (MSAs)</strong> ao longo do tempo, extraindo uma amostra de um subconjunto delas aproximadamente a cada quatro anos.</p>
+<p>A pesquisa de 2002 extraiu uma amostra de <strong>13 MSAs</strong> (listadas na tabela a seguir). Os dados apresentam:</p>
+<ul>
+<li>Os custos mensais típicos de propriedade (excluindo manutenção) para os anos de 2002 e 1994 <em>(Nota: Estes dados referem-se apenas a casas ocupadas pelos proprietários).</em></li>
+</ul>
+<p><strong>Objetivo:</strong> Use esses dados para estimar <span class="math inline">\(R\)</span>, a razão da média dos custos mensais típicos de 2002 em comparação aos de 1994 para todas as 47 MSAs. Calcule o intervalo de 95% de confiança.</p>
+</section>
+<section class="slide level2">
+
+<table class="caption-top" style="width:100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 25px;">
+<thead>
+<tr class="header" style="background:#f2f2f2;">
+<th data-quarto-table-cell-role="th" style="text-align: left; padding: 4px;">MSA</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 4px;">2002 (y)</th>
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 4px;">1994 (x)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="padding: 2px 4px">Anaheim–Santa Ana, CA</td>
+<td style="text-align: center;">1363</td>
+<td style="text-align: center;">1087</td>
+</tr>
+<tr class="even">
+<td style="padding: 2px 4px">Buffalo, NY</td>
+<td style="text-align: center;">670</td>
+<td style="text-align: center;">571</td>
+</tr>
+<tr class="odd">
+<td style="padding: 2px 4px">Charlotte, NC-SC</td>
+<td style="text-align: center;">761</td>
+<td style="text-align: center;">518</td>
+</tr>
+<tr class="even">
+<td style="padding: 2px 4px">Columbus, OH</td>
+<td style="text-align: center;">746</td>
+<td style="text-align: center;">612</td>
+</tr>
+<tr class="odd">
+<td style="padding: 2px 4px">Dallas, TX</td>
+<td style="text-align: center;">991</td>
+<td style="text-align: center;">770</td>
+</tr>
+<tr class="even">
+<td style="padding: 2px 4px">Fort Worth–Arlington, TX</td>
+<td style="text-align: center;">798</td>
+<td style="text-align: center;">655</td>
+</tr>
+<tr class="odd">
+<td style="padding: 2px 4px">Kansas City, MO-KS</td>
+<td style="text-align: center;">728</td>
+<td style="text-align: center;">552</td>
+</tr>
+<tr class="even">
+<td style="padding: 2px 4px">Miami–Fort Lauderdale, FL</td>
+<td style="text-align: center;">842</td>
+<td style="text-align: center;">710</td>
+</tr>
+<tr class="odd">
+<td style="padding: 2px 4px">Milwaukee, WI</td>
+<td style="text-align: center;">849</td>
+<td style="text-align: center;">656</td>
+</tr>
+<tr class="even">
+<td style="padding: 2px 4px">Phoenix, AS</td>
+<td style="text-align: center;">885</td>
+<td style="text-align: center;">636</td>
+</tr>
+<tr class="odd">
+<td style="padding: 2px 4px">Portland, OR-WA</td>
+<td style="text-align: center;">986</td>
+<td style="text-align: center;">676</td>
+</tr>
+<tr class="even">
+<td style="padding: 2px 4px">Riverside-San Bernardino, CA</td>
+<td style="text-align: center;">934</td>
+<td style="text-align: center;">773</td>
+</tr>
+<tr class="odd">
+<td style="padding: 2px 4px">San Diego, CA</td>
+<td style="text-align: center;">1167</td>
+<td style="text-align: center;">829</td>
+</tr>
+</tbody><tfoot style="background:#eef2f5; font-weight: bold; border-top: 2px solid #ccc;">
+<tr class="odd">
+<td style="padding: 4px">Média / Mediana / Desvio padrão</td>
+<td style="text-align: center; padding: 4px;">901.5 / 880.6 / 192.5</td>
+<td style="text-align: center; padding: 4px;">695.8 / 676.4 / 148.5</td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+<section class="slide level2">
+
+<p><strong>Exemplo 2: Dimensionamento de Amostra para Estimativa de Razão</strong></p>
+<p>Uma empresa de manufatura deseja estimar a <strong>razão de mudança</strong> (<span class="math inline">\(R\)</span>) no número de horas de trabalho perdidas por doença do ano anterior para o ano atual.</p>
+<p><strong>Informações</strong>:</p>
+<ul>
+<li><strong>Amostra preliminar:</strong> <span class="math inline">\(n' = 10\)</span> registos de funcionários (dados na Tabela seguinte).</li>
+<li><strong>Tamanho da população:</strong> <span class="math inline">\(N = 1000\)</span> funcionários.</li>
+<li><strong>Total de horas perdidas no ano anterior:</strong> <span class="math inline">\(\tau_x = 16\,300\)</span> horas.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p><strong>Objetivo:</strong></p>
+<p>Determinar o <strong>tamanho amostral (<span class="math inline">\(n\)</span>)</strong> para estimar a taxa de variação <span class="math inline">\(R\)</span> da empresa com uma margem de erro de estimação de <strong><span class="math inline">\(B = 0,01\)</span></strong>.</p>
+</section>
+<section class="slide level2">
+
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 780px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 6px;">
+    Tabela — Horas de trabalho perdidas por doença (Amostra preliminar $n' = 10$)
+  </p>
+
+  
+<table class="caption-top" style="width: 100%; border-collapse: collapse; font-size: 1.5rem; text-align: right; line-height: 1.2;">
+<thead>
+<tr class="header" style="border-top: 2px solid #333; border-bottom: 2px solid #333; background-color: #f8f9fa;">
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 5px 8px; font-weight: bold;">Funcionário</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold">Ano Anterior ($x_i$)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold">Ano Atual ($y_i$)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold; color: #555">$y_i - rx_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">1</td>
+<td style="padding: 4px 8px">12</td>
+<td style="padding: 4px 8px">13</td>
+<td style="padding: 4px 8px; color: #555">0,39326</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">2</td>
+<td style="padding: 4px 8px">24</td>
+<td style="padding: 4px 8px">25</td>
+<td style="padding: 4px 8px; color: #555">-0,21349</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">3</td>
+<td style="padding: 4px 8px">15</td>
+<td style="padding: 4px 8px">15</td>
+<td style="padding: 4px 8px; color: #555">-0,75843</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">4</td>
+<td style="padding: 4px 8px">30</td>
+<td style="padding: 4px 8px">32</td>
+<td style="padding: 4px 8px; color: #555">0,48314</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">5</td>
+<td style="padding: 4px 8px">32</td>
+<td style="padding: 4px 8px">36</td>
+<td style="padding: 4px 8px; color: #555">2,38202</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">6</td>
+<td style="padding: 4px 8px">26</td>
+<td style="padding: 4px 8px">24</td>
+<td style="padding: 4px 8px; color: #555">-3,31461</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">7</td>
+<td style="padding: 4px 8px">10</td>
+<td style="padding: 4px 8px">12</td>
+<td style="padding: 4px 8px; color: #555">1,49438</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">8</td>
+<td style="padding: 4px 8px">15</td>
+<td style="padding: 4px 8px">16</td>
+<td style="padding: 4px 8px; color: #555">0,24157</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">9</td>
+<td style="padding: 4px 8px">0</td>
+<td style="padding: 4px 8px">2</td>
+<td style="padding: 4px 8px; color: #555">2,00000</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #ccc; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">10</td>
+<td style="padding: 4px 8px">14</td>
+<td style="padding: 4px 8px">12</td>
+<td style="padding: 4px 8px; color: #555">-2,70787</td>
+</tr>
+</tbody><tfoot style="background-color: #f1f3f5; font-weight: bold; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+<tr class="odd">
+<td style="text-align: left; padding: 4px 8px;">Média ($\bar{x}, \bar{y}$)</td>
+<td style="padding: 4px 8px">18,70</td>
+<td style="padding: 4px 8px">17,80</td>
+<td style="padding: 4px 8px; color: #555">-0,00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 4px 8px;">Mediana</td>
+<td style="padding: 4px 8px">15,50</td>
+<td style="padding: 4px 8px">15,00</td>
+<td style="padding: 4px 8px; color: #555">0,32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 4px 8px;">Desvio Padrão ($s_x, s_y, s_r$)</td>
+<td style="padding: 4px 8px">10,36</td>
+<td style="padding: 4px 8px">9,99</td>
+<td style="padding: 4px 8px; color: #555">1,87</td>
+</tr>
+</tfoot>
+
+</table>
+
+
+</div>
+</section>
+<section id="estimador-do-total-por-razão-com-aas" class="slide level2" style="font-size: 0.75em;">
+<h2>Estimador do total por razão com AAS</h2>
+<p><br></p>
+<p><strong>Exemplo 3: Estimação do Conteúdo Total de Açúcar</strong></p>
+<p>Num estudo para estimar o <strong>conteúdo total de açúcar</strong> de uma carga de laranjas num camião, foi recolhida uma amostra aleatória de <strong><span class="math inline">\(n = 10\)</span> laranjas</strong>, as quais foram espremidas e pesadas.</p>
+<p>O <strong>peso total de todas as laranjas</strong> no camião (obtido pela diferença entre o peso do camião carregado e descarregado) é de <strong>1800 libras</strong>.</p>
+<p><strong>Objetivos:</strong></p>
+<ol type="1">
+<li><p>Estimar <strong><span class="math inline">\(\tau_y\)</span></strong>, o conteúdo total de açúcar da carga de laranjas.</p></li>
+<li><p>Calcular a margem de erro com 95% de confiança.</p></li>
+</ol>
+</section>
+<section class="slide level2">
+
+<p><strong>Exemplo 4: Auditoria do Valor do Inventário Hospitalar</strong></p>
+<p>Um auditor deseja comparar o <strong>valor total real do inventário (<span class="math inline">\(\tau_y\)</span>)</strong> de um hospital com o <strong>valor registado no computador (<span class="math inline">\(\tau_x\)</span>)</strong>.</p>
+<p><strong>Informações</strong>:</p>
+<ul>
+<li><strong>População:</strong> <span class="math inline">\(N = 2100\)</span> tipos de itens distintos no inventário do hospital.</li>
+<li><strong>Valor Registado Total:</strong> <span class="math inline">\(\tau_x = \$45.000\)</span> (obtidototalizando os registros do computador).</li>
+<li><strong>Amostra Piloto:</strong> Seleção aleatória de <span class="math inline">\(n' = 15\)</span> itens para contagem e avaliação real (Tabela seguinte).</li>
+<li><strong>Motivação:</strong> A contagem física completa de todos os itens seria extremamente dispendiosa e demorada.</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p><strong>Objetivo</strong>:</p>
+<p>Determinar o <strong>tamanho da amostra (<span class="math inline">\(n\)</span>)</strong> para estimar o valor total real do inventário <span class="math inline">\(\tau_y\)</span> com uma <strong>lmargem de erro de estimação de <span class="math inline">\(B = \$500\)</span></strong>.</p>
+</section>
+<section class="slide level2">
+
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 780px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 6px;">
+    Tabela — Valor do Inventário ($) (Amostra piloto $n' = 15$)
+  </p>
+
+  
+<table class="caption-top" style="width: 100%; border-collapse: collapse; font-size: 1.2rem; text-align: right; line-height: 1.15;">
+<thead>
+<tr class="header" style="border-top: 2px solid #333; border-bottom: 2px solid #333; background-color: #f8f9fa;">
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 4px 6px; font-weight: bold;">Item</th>
+<th data-quarto-table-cell-role="th" style="padding: 4px 6px; font-weight: bold">Valor no Computador ($x_i$)</th>
+<th data-quarto-table-cell-role="th" style="padding: 4px 6px; font-weight: bold">Valor Real ($y_i$)</th>
+<th data-quarto-table-cell-role="th" style="padding: 4px 6px; font-weight: bold; color: #555">$y_i - rx_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">1</td>
+<td style="padding: 3px 6px">15,0</td>
+<td style="padding: 3px 6px">14,0</td>
+<td style="padding: 3px 6px; color: #555">-0,72102</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">2</td>
+<td style="padding: 3px 6px">9,5</td>
+<td style="padding: 3px 6px">9,0</td>
+<td style="padding: 3px 6px; color: #555">-0,32331</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">3</td>
+<td style="padding: 3px 6px">14,2</td>
+<td style="padding: 3px 6px">12,5</td>
+<td style="padding: 3px 6px; color: #555">-1,43590</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">4</td>
+<td style="padding: 3px 6px">20,5</td>
+<td style="padding: 3px 6px">22,0</td>
+<td style="padding: 3px 6px; color: #555">1,88128</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">5</td>
+<td style="padding: 3px 6px">6,7</td>
+<td style="padding: 3px 6px">6,3</td>
+<td style="padding: 3px 6px; color: #555">-0,27539</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">6</td>
+<td style="padding: 3px 6px">9,8</td>
+<td style="padding: 3px 6px">8,4</td>
+<td style="padding: 3px 6px; color: #555">-1,21773</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">7</td>
+<td style="padding: 3px 6px">25,7</td>
+<td style="padding: 3px 6px">28,5</td>
+<td style="padding: 3px 6px; color: #555">3,27799</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">8</td>
+<td style="padding: 3px 6px">12,6</td>
+<td style="padding: 3px 6px">10,0</td>
+<td style="padding: 3px 6px; color: #555">-2,36565</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">9</td>
+<td style="padding: 3px 6px">15,1</td>
+<td style="padding: 3px 6px">14,4</td>
+<td style="padding: 3px 6px; color: #555">-0,41916</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">10</td>
+<td style="padding: 3px 6px">30,9</td>
+<td style="padding: 3px 6px">28,2</td>
+<td style="padding: 3px 6px; color: #555">-2,12529</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">11</td>
+<td style="padding: 3px 6px">7,3</td>
+<td style="padding: 3px 6px">15,5</td>
+<td style="padding: 3px 6px; color: #555">8,33577</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">12</td>
+<td style="padding: 3px 6px">28,6</td>
+<td style="padding: 3px 6px">26,3</td>
+<td style="padding: 3px 6px; color: #555">-1,76807</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 3px 6px;">13</td>
+<td style="padding: 3px 6px">14,7</td>
+<td style="padding: 3px 6px">13,1</td>
+<td style="padding: 3px 6px; color: #555">-1,32660</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 3px 6px;">14</td>
+<td style="padding: 3px 6px">20,5</td>
+<td style="padding: 3px 6px">19,5</td>
+<td style="padding: 3px 6px; color: #555">-0,61872</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #ccc;">
+<td style="text-align: center; padding: 3px 6px;">15</td>
+<td style="padding: 3px 6px">10,9</td>
+<td style="padding: 3px 6px">9,8</td>
+<td style="padding: 3px 6px; color: #555">-0,89727</td>
+</tr>
+</tbody><tfoot style="background-color: #f1f3f5; font-weight: bold; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+<tr class="odd">
+<td style="text-align: left; padding: 4px 6px;">Média ($\bar{x}, \bar{y}$)</td>
+<td style="padding: 4px 6px">16,13</td>
+<td style="padding: 4px 6px">15,83</td>
+<td style="padding: 4px 6px; color: #555">0,00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 4px 6px;">Mediana</td>
+<td style="padding: 4px 6px">14,70</td>
+<td style="padding: 4px 6px">14,00</td>
+<td style="padding: 4px 6px; color: #555">-0,72</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 4px 6px;">Desvio Padrão ($s_x, s_y, s_r$)</td>
+<td style="padding: 4px 6px">7,57</td>
+<td style="padding: 4px 6px">7,38</td>
+<td style="padding: 4px 6px; color: #555">2,73</td>
+</tr>
+</tfoot>
+
+</table>
+
+
+</div>
+</section>
+<section id="estimador-da-média-por-razão-com-aas" class="slide level2" style="font-size: 0.75em;">
+<h2>Estimador da média por razão com AAS</h2>
+<p><br></p>
+<p><strong>Exemplo 5: Atualização de Dados Agrícolas ao Longo do Tempo</strong></p>
+<p>Um dos principais usos da <strong>estimação por razão</strong> é a atualização de informações ao longo do tempo, utilizando uma amostra de dados atuais para atualizar relatórios populacionais de anos anteriores.</p>
+<p><strong>Contexto do Estudo:</strong></p>
+<ul>
+<li><strong>Cultura:</strong> Cana-de-açúcar cultivada em <strong><span class="math inline">\(N = 32\)</span> condados</strong> (Flórida, Havai, Luisiana e Texas).</li>
+<li><strong>Cenário (Final de 1999):</strong> Não existem dados completos para 1999, mas existem registos completos de <strong>1997</strong> e dados preliminares de uma amostra de <strong><span class="math inline">\(n = 6\)</span> condados</strong> em 1999.</li>
+<li><strong>Dados Populacionais Conhecidos de 1997 (<span class="math inline">\(N = 32\)</span>):</strong>
+<ul>
+<li>Área média colhida por condado (<span class="math inline">\(\mu_x\)</span>): <strong>27 752 acres</strong></li>
+<li>Produção média por condado: <strong>967 839 toneladas</strong></li>
+</ul></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<ul>
+<li><strong>Objetivos:</strong></li>
+</ul>
+<ol type="1">
+<li><p>Estimar a <strong>área média colhida por condado</strong> (<span class="math inline">\(\mu_y\)</span>) para a cana-de-açúcar em <strong>1999</strong> considerando todos os 32 condados.</p></li>
+<li><p>Calcular a <strong>margem de erro</strong> com 95% de confiança para a estimativa.</p></li>
+</ol>
+</section>
+<section class="slide level2">
+
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 850px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 8px;">
+    Tabela — Área colhida e produção de cana-de-açúcar (1997 e 1999) na amostra de condados
+  </p>
+
+  
+<table class="caption-top" style="width: 100%; border-collapse: collapse; font-size: 1.75rem; text-align: right; line-height: 1.2;">
+<thead>
+<tr class="header" style="border-top: 2px solid #333; border-bottom: 1px solid #ccc; background-color: #f8f9fa;">
+<th rowspan="2" data-quarto-table-cell-role="th" style="text-align: left; padding: 6px 8px; font-weight: bold;">Estado</th>
+<th rowspan="2" data-quarto-table-cell-role="th" style="text-align: left; padding: 6px 8px; font-weight: bold;">Condado</th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; padding: 6px 8px; border-left: 1px solid #ddd; font-weight: bold;">1999</th>
+<th colspan="2" data-quarto-table-cell-role="th" style="text-align: center; padding: 6px 8px; border-left: 1px solid #ddd; font-weight: bold;">1997</th>
+</tr>
+<tr class="even" style="border-bottom: 2px solid #333; background-color: #f8f9fa;">
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; border-left: 1px solid #ddd; font-weight: bold">Área (acres)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold">Produção (ton)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; border-left: 1px solid #ddd; font-weight: bold">Área (acres)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold">Produção (ton)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: left; padding: 5px 8px;">FL</td>
+<td style="text-align: left; padding: 5px 8px;">Hendry</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">57,000</td>
+<td style="padding: 5px 8px">2,012,100</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">54,000</td>
+<td style="padding: 5px 8px">2,008,000</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: left; padding: 5px 8px;">HI</td>
+<td style="text-align: left; padding: 5px 8px;">Kauai</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">13,900</td>
+<td style="padding: 5px 8px">917,000</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">12,300</td>
+<td style="padding: 5px 8px">1,141,000</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: left; padding: 5px 8px;">LA</td>
+<td style="text-align: left; padding: 5px 8px;">Saint Landry</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">15,500</td>
+<td style="padding: 5px 8px">470,000</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">9,100</td>
+<td style="padding: 5px 8px">270,000</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: left; padding: 5px 8px;">LA</td>
+<td style="text-align: left; padding: 5px 8px;">Calcasieu</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">3,900</td>
+<td style="padding: 5px 8px">120,000</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">1,700</td>
+<td style="padding: 5px 8px">45,000</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: left; padding: 5px 8px;">LA</td>
+<td style="text-align: left; padding: 5px 8px;">Iberia</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">59,900</td>
+<td style="padding: 5px 8px">1,900,000</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">57,200</td>
+<td style="padding: 5px 8px">1,655,000</td>
+</tr>
+<tr class="even" style="border-bottom: 2px solid #333; background-color: #fcfcfc;">
+<td style="text-align: left; padding: 5px 8px;">TX</td>
+<td style="text-align: left; padding: 5px 8px;">Cameron</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">10,400</td>
+<td style="padding: 5px 8px">335,300</td>
+<td style="border-left: 1px solid #eee; padding: 5px 8px">12,900</td>
+<td style="padding: 5px 8px">382,500</td>
+</tr>
+</tbody>
+</table>
+
+
+  <p style="font-size: 0.70rem; color: #666; margin-top: 6px;">
+    <strong>Fonte:</strong> National Agricultural Statistics Service (USDA)
+  </p>
+
+</div>
+</section>
+<section class="slide level2">
+
+<p><strong>Exemplo 6: Tamanho da Amostra para Estimativa do Número Médio de Árvores</strong></p>
+<p>Uma investigadora pretende estimar o <strong>número médio de árvores por acre (<span class="math inline">\(\mu_y\)</span>)</strong> numa plantação com <strong><span class="math inline">\(N = 1000\)</span> acres</strong>.</p>
+<p><strong>Informações</strong>:</p>
+<ul>
+<li><strong>Amostragem:</strong> Seleção de <span class="math inline">\(n\)</span> parcelas de 1 acre para contagem do número real de árvores (<span class="math inline">\(y\)</span>).</li>
+<li><strong>Informação Auxiliar (<span class="math inline">\(x\)</span>):</strong> Fotografias aéreas de toda a plantação fornecem a estimativa do número de árvores (<span class="math inline">\(x\)</span>) em cada parcela, tornando a média <span class="math inline">\(\mu_x\)</span> aproximadamente conhecida.</li>
+<li><strong>Dados Piloto:</strong> Amostra preliminar de <span class="math inline">\(n' = 10\)</span> parcelas (Tabela seguinte).</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p><strong>Objetivo</strong>:</p>
+<p>Determinar o <strong>tamanho da amostra (<span class="math inline">\(n\)</span>)</strong> para estimar <span class="math inline">\(\mu_y\)</span> através de um estimador de razão com um <strong>margem de erro de estimação de <span class="math inline">\(B = 1,0\)</span></strong>.</p>
+</section>
+<section class="slide level2">
+
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 780px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 6px;">
+    Tabela — Número de árvores por parcela (Amostra piloto $n' = 10$)
+  </p>
+
+  
+<table class="caption-top" style="width: 100%; border-collapse: collapse; font-size: 1.5rem; text-align: right; line-height: 1.2;">
+<thead>
+<tr class="header" style="border-top: 2px solid #333; border-bottom: 2px solid #333; background-color: #f8f9fa;">
+<th data-quarto-table-cell-role="th" style="text-align: center; padding: 5px 8px; font-weight: bold;">Parcela</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold">Estimativa Aérea ($x_i$)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold">Número Real ($y_i$)</th>
+<th data-quarto-table-cell-role="th" style="padding: 5px 8px; font-weight: bold; color: #555">$y_i - rx_i$</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">1</td>
+<td style="padding: 4px 8px">23</td>
+<td style="padding: 4px 8px">25</td>
+<td style="padding: 4px 8px; color: #555">0,5625</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">2</td>
+<td style="padding: 4px 8px">14</td>
+<td style="padding: 4px 8px">15</td>
+<td style="padding: 4px 8px; color: #555">0,1250</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">3</td>
+<td style="padding: 4px 8px">20</td>
+<td style="padding: 4px 8px">22</td>
+<td style="padding: 4px 8px; color: #555">0,7500</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">4</td>
+<td style="padding: 4px 8px">25</td>
+<td style="padding: 4px 8px">24</td>
+<td style="padding: 4px 8px; color: #555">-2,5625</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">5</td>
+<td style="padding: 4px 8px">12</td>
+<td style="padding: 4px 8px">13</td>
+<td style="padding: 4px 8px; color: #555">0,2500</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">6</td>
+<td style="padding: 4px 8px">18</td>
+<td style="padding: 4px 8px">18</td>
+<td style="padding: 4px 8px; color: #555">-1,1250</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">7</td>
+<td style="padding: 4px 8px">30</td>
+<td style="padding: 4px 8px">35</td>
+<td style="padding: 4px 8px; color: #555">3,1250</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">8</td>
+<td style="padding: 4px 8px">27</td>
+<td style="padding: 4px 8px">30</td>
+<td style="padding: 4px 8px; color: #555">1,3125</td>
+</tr>
+<tr class="odd" style="border-bottom: 1px solid #eee;">
+<td style="text-align: center; padding: 4px 8px;">9</td>
+<td style="padding: 4px 8px">8</td>
+<td style="padding: 4px 8px">10</td>
+<td style="padding: 4px 8px; color: #555">1,5000</td>
+</tr>
+<tr class="even" style="border-bottom: 1px solid #ccc; background-color: #fcfcfc;">
+<td style="text-align: center; padding: 4px 8px;">10</td>
+<td style="padding: 4px 8px">31</td>
+<td style="padding: 4px 8px">29</td>
+<td style="padding: 4px 8px; color: #555">-3,9375</td>
+</tr>
+</tbody><tfoot style="background-color: #f1f3f5; font-weight: bold; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+<tr class="odd">
+<td style="text-align: left; padding: 4px 8px;">Média ($\bar{x}, \bar{y}$)</td>
+<td style="padding: 4px 8px">22,10</td>
+<td style="padding: 4px 8px">20,80</td>
+<td style="padding: 4px 8px; color: #555">0,000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; padding: 4px 8px;">Mediana</td>
+<td style="padding: 4px 8px">23,00</td>
+<td style="padding: 4px 8px">21,50</td>
+<td style="padding: 4px 8px; color: #555">0,41</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; padding: 4px 8px;">Desvio Padrão ($s_x, s_y, s_r$)</td>
+<td style="padding: 4px 8px">8,06</td>
+<td style="padding: 4px 8px">7,79</td>
+<td style="padding: 4px 8px; color: #555">2,06</td>
+</tr>
+</tfoot>
+
+</table>
+
+
+</div>
 </section>
 <section class="slide level2">
 
@@ -389,6 +1055,82 @@ Elizabeth Mie Hashimoto
         ]
       });
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

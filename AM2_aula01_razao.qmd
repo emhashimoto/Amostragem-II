@@ -28,11 +28,789 @@ from: markdown+emoji
 
 # Estimadores do tipo razão {background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)"}
 
-# Título no Meio da Apresentação
-<!-- Este slide será gerado como um "Title Slide" de seção -->
+## 🎯Objetivo da aula
 
-## Slide Normal 2
-Conteúdo do slide seguinte.
+<br>
+
+- Definir os estimadores tipos razão: AAS
+
+- Obtenção do tamanho da amostra
+
+## 💻Estudo de Simulação 1
+
+<br>
+
+::: {.columns}
+
+::: {.column width="50%"}
+* **População:** $N = 1.000$
+* **Amostra:** $n = 30$
+* **Réplicas:** $r = 2.000$ 
+* **Média Alvo (Fixa):** $\mu_Y = 2,5 \cdot \bar{X}$
+* **Níveis de $\rho$:** $\{0,20; 0,50; 0,80; 0,98\}$
+* **Semente:** `set.seed(2026)`
+:::
+
+::: {.column width="50%"}
+* **Auxiliar:** $X \sim \mathcal{U}(10, 100)$
+* **Erro:** $\epsilon \sim \mathcal{N}\left(0, \sigma_{\epsilon}^2(\rho)\right)$
+* **Condição:** $\bar{\epsilon} = 0$ (forçado)
+:::
+
+:::
+
+
+---
+
+```{r}
+#| fig-width: 10
+#| fig-height: 5.5
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+set.seed(2026)
+
+# 1. População fixa de X para garantir a mesma média em todas as simulações
+N <- 1000
+X_pop <- runif(N, min = 10, max = 100)
+var_X <- var(X_pop)
+beta <- 2.5
+Y_bar_alvo <- beta * mean(X_pop) # Média populacional cravada para todos os rhos
+
+# 2. Função para simular o estimador mantendo a média estritamente fixa
+simular_impacto_rho <- function(rho_alvo, n = 30, B = 1000) {
+  
+  # Desvio padrão do erro ajustado para o rho desejado
+  sd_erro <- sqrt((beta^2 * var_X * (1 - rho_alvo^2)) / rho_alvo^2)
+  
+  # Gera o erro e FORÇA a sua média a ser 0 (garante Y_bar constante)
+  erro <- rnorm(N, mean = 0, sd = sd_erro)
+  erro <- erro - mean(erro) 
+  
+  Y <- beta * X_pop + erro
+  X_bar_pop <- mean(X_pop)
+  
+  estimativas <- numeric(B)
+  for (i in 1:B) {
+    idx <- sample(1:N, size = n, replace = FALSE)
+    x_am <- X_pop[idx]
+    y_am <- Y[idx]
+    estimativas[i] <- (mean(y_am) / mean(x_am)) * X_bar_pop
+  }
+  
+  data.frame(
+    Rho_Rotulo = paste0("ρ = ", rho_alvo),
+    Estimativa = estimativas
+  )
+}
+
+# 3. Gerar simulações para 4 níveis de correlação
+rhos <- c(0.2, 0.5, 0.8, 0.98)
+dados_simulados <- bind_rows(lapply(rhos, simular_impacto_rho))
+
+# Ordenar os fatores para a legenda seguir a ordem dos rhos
+dados_simulados$Rho_Rotulo <- factor(
+  dados_simulados$Rho_Rotulo, 
+  levels = paste0("ρ = ", rhos)
+)
+
+# 4. Gráfico de densidade centralizado na verdadeira média
+ggplot(dados_simulados, aes(x = Estimativa, fill = Rho_Rotulo)) +
+  geom_density(alpha = 0.55, color = NA) +
+  geom_vline(xintercept = Y_bar_alvo, linetype = "dashed", color = "#333333", linewidth = 0.9) +
+  scale_fill_manual(
+    values = c(
+      "ρ = 0.2"  = "#A83816", # Terracota
+      "ρ = 0.5"  = "#D97724", # Laranja
+      "ρ = 0.8"  = "#0054A6", # Azul Unesp
+      "ρ = 0.98" = "#002B49"  # Azul Escuro
+    )
+  ) +
+  labs(
+    title = "Efeito da Correlação (ρ) na Precisão do Estimador de Razão",
+    subtitle = paste0("Todas as curvas estão centradas na mesma média populacional verdadeira (μ = ", round(Y_bar_alvo, 2), ")"),
+    x = "Estimativa da Média Populacional (Ŷ_R)",
+    y = "Densidade",
+    fill = "Correlação (ρ)"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", color = "#002B49"),
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+---
+
+## 💻Estudo de Simulação 2
+
+<br>
+
+::: {.columns}
+
+::: {.column width="45%"}
+* **População:** $N = 1.000$
+* **Amostra:** $n = 30$
+* **Simulações:** $r = 1.000$
+* **Semente:** `set.seed(42)`
+* **Auxiliar:** $X \sim \mathcal{U}(10, 100)$
+* **Erro:** $\epsilon \sim \mathcal{N}(0, 15^2)$
+* **Interesse:** $Y = 2,5X + \epsilon$
+:::
+
+::: {.column width="55%"}
+
+:::{.fragment}
+- Amostragem aleatória simples (AAS) 
+
+- Média simples
+
+- Estimativa tipo razão
+:::
+
+:::
+
+:::
+
+---
+
+```{r}
+#| fig-width: 9
+#| fig-height: 5
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# 1. Gerar População Sintética (N = 1000)
+set.seed(42)
+N <- 1000
+X_pop <- runif(N, min = 10, max = 100) # Variável Auxiliar (ex: Área)
+Y_pop <- 2.5 * X_pop + rnorm(N, mean = 0, sd = 15) # Variável de Interesse (ex: Produção)
+
+Y_bar_pop <- mean(Y_pop) # Média real populacional
+X_bar_pop <- mean(X_pop) # Média real conhecida da aux
+
+# 2. Simulação Monte Carlo (2.000 amostras de tamanho n = 30)
+B <- 1000
+n <- 30
+resultados <- data.frame(AAS = numeric(B), Razao = numeric(B))
+
+for(i in 1:B) {
+  idx <- sample(1:N, size = n, replace = FALSE)
+  x_am <- X_pop[idx]
+  y_am <- Y_pop[idx]
+  
+  # Estimador 1: Média Amostral Simples (AAS)
+  resultados$AAS[i] <- mean(y_am)
+  
+  # Estimador 2: Estimador de Razão
+  resultados$Razao[i] <- (mean(y_am) / mean(x_am)) * X_bar_pop
+}
+
+# 3. Organizar dados para o ggplot
+dados_plot <- resultados %>%
+  pivot_longer(cols = c(AAS, Razao), names_to = "Estimador", values_to = "Valor") %>%
+  mutate(Estimador = ifelse(Estimador == "AAS", "Média Simples", "Estimador de Razão"))
+
+# 4. Gráfico com identidade visual Unesp/Capa
+ggplot(dados_plot, aes(x = Valor, fill = Estimador)) +
+  geom_density(alpha = 0.65, color = NA) +
+  geom_vline(xintercept = Y_bar_pop, linetype = "dashed", color = "#333333", linewidth = 0.9) +
+  scale_fill_manual(values = c("Média Simples" = "#7A2E16", "Estimador de Razão" = "#0054A6")) +
+  labs(
+    title = "Comparação de Variância: Média simples vs. Estimador de Razão",
+    subtitle = paste0("A linha tracejada é o valor real da média populacional (μ = ", round(Y_bar_pop, 2), ")"),
+    x = "Valor Estimado (Ŷ)",
+    y = "Densidade",
+    fill = "Estimador"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "top",
+    plot.title = element_text(face = "bold", color = "#002B49"),
+    panel.grid.minor = element_blank()
+  )
+```
+
+---
+
+## Estimador da razão populacional com AAS {style="font-size: 0.75em;"}
+
+- **Exemplo 1: Pesquisa Americana de Habitação**
+
+A Pesquisa Americana de Habitação (*American Housing Survey*) do governo dos EUA acompanha diversos aspectos das características habitacionais no país, incluindo os custos mensais para proprietários e o valor dos imóveis. 
+
+Um dos aspectos da pesquisa acompanha **47 áreas estatísticas metropolitanas (MSAs)** ao longo do tempo, extraindo uma amostra de um subconjunto delas aproximadamente a cada quatro anos. 
+
+A pesquisa de 2002 extraiu uma amostra de **13 MSAs** (listadas na tabela a seguir). Os dados apresentam:
+
+* Os custos mensais típicos de propriedade (excluindo manutenção) para os anos de 2002 e 1994
+*(Nota: Estes dados referem-se apenas a casas ocupadas pelos proprietários).*
+
+**Objetivo:**
+Use esses dados para estimar $R$, a razão da média dos custos mensais típicos de 2002 em comparação aos de 1994 para todas as 47 MSAs. Calcule o intervalo de 95% de confiança.
+
+---
+
+```{=html}
+<table style="width:100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 25px;">
+  <thead>
+    <tr style="background:#f2f2f2;">
+      <th style="padding: 4px; text-align: left;">MSA</th>
+      <th style="padding: 4px; text-align: center;">2002 (y)</th>
+      <th style="padding: 4px; text-align: center;">1994 (x)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding: 2px 4px;">Anaheim–Santa Ana, CA</td><td align="center">1363</td><td align="center">1087</td></tr>
+    <tr><td style="padding: 2px 4px;">Buffalo, NY</td><td align="center">670</td><td align="center">571</td></tr>
+    <tr><td style="padding: 2px 4px;">Charlotte, NC-SC</td><td align="center">761</td><td align="center">518</td></tr>
+    <tr><td style="padding: 2px 4px;">Columbus, OH</td><td align="center">746</td><td align="center">612</td></tr>
+    <tr><td style="padding: 2px 4px;">Dallas, TX</td><td align="center">991</td><td align="center">770</td></tr>
+    <tr><td style="padding: 2px 4px;">Fort Worth–Arlington, TX</td><td align="center">798</td><td align="center">655</td></tr>
+    <tr><td style="padding: 2px 4px;">Kansas City, MO-KS</td><td align="center">728</td><td align="center">552</td></tr>
+    <tr><td style="padding: 2px 4px;">Miami–Fort Lauderdale, FL</td><td align="center">842</td><td align="center">710</td></tr>
+    <tr><td style="padding: 2px 4px;">Milwaukee, WI</td><td align="center">849</td><td align="center">656</td></tr>
+    <tr><td style="padding: 2px 4px;">Phoenix, AS</td><td align="center">885</td><td align="center">636</td></tr>
+    <tr><td style="padding: 2px 4px;">Portland, OR-WA</td><td align="center">986</td><td align="center">676</td></tr>
+    <tr><td style="padding: 2px 4px;">Riverside-San Bernardino, CA</td><td align="center">934</td><td align="center">773</td></tr>
+    <tr><td style="padding: 2px 4px;">San Diego, CA</td><td align="center">1167</td><td align="center">829</td></tr>
+  </tbody>
+  <tfoot style="background:#eef2f5; font-weight: bold; border-top: 2px solid #ccc;">
+    <tr>
+      <td style="padding: 4px;">Média / Mediana / Desvio padrão</td>
+      <td align="center" style="padding: 4px;">901.5 / 880.6 / 192.5</td>
+      <td align="center" style="padding: 4px;">695.8 / 676.4 / 148.5</td>
+    </tr>
+  </tfoot>
+</table>
+```
+
+---
+
+**Exemplo 2: Dimensionamento de Amostra para Estimativa de Razão**
+
+Uma empresa de manufatura deseja estimar a **razão de mudança** ($R$) no número de horas de trabalho perdidas por doença do ano anterior para o ano atual.
+
+**Informações**:
+
+* **Amostra preliminar:** $n' = 10$ registos de funcionários (dados na Tabela seguinte).
+* **Tamanho da população:** $N = 1000$ funcionários.
+* **Total de horas perdidas no ano anterior:** $\tau_x = 16\,300$ horas.
+
+---
+
+**Objetivo:**
+
+Determinar o **tamanho amostral ($n$)** para estimar a taxa de variação $R$ da empresa com uma margem de erro de estimação de **$B = 0,01$**.
+
+---
+
+```{=html}
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 780px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 6px;">
+    Tabela — Horas de trabalho perdidas por doença (Amostra preliminar $n' = 10$)
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 1.5rem; text-align: right; line-height: 1.2;">
+    <thead>
+      <tr style="border-top: 2px solid #333; border-bottom: 2px solid #333; background-color: #f8f9fa;">
+        <th style="text-align: center; padding: 5px 8px; font-weight: bold;">Funcionário</th>
+        <th style="padding: 5px 8px; font-weight: bold;">Ano Anterior ($x_i$)</th>
+        <th style="padding: 5px 8px; font-weight: bold;">Ano Atual ($y_i$)</th>
+        <th style="padding: 5px 8px; font-weight: bold; color: #555;">$y_i - rx_i$</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">1</td>
+        <td style="padding: 4px 8px;">12</td>
+        <td style="padding: 4px 8px;">13</td>
+        <td style="padding: 4px 8px; color: #555;">0,39326</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">2</td>
+        <td style="padding: 4px 8px;">24</td>
+        <td style="padding: 4px 8px;">25</td>
+        <td style="padding: 4px 8px; color: #555;">-0,21349</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">3</td>
+        <td style="padding: 4px 8px;">15</td>
+        <td style="padding: 4px 8px;">15</td>
+        <td style="padding: 4px 8px; color: #555;">-0,75843</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">4</td>
+        <td style="padding: 4px 8px;">30</td>
+        <td style="padding: 4px 8px;">32</td>
+        <td style="padding: 4px 8px; color: #555;">0,48314</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">5</td>
+        <td style="padding: 4px 8px;">32</td>
+        <td style="padding: 4px 8px;">36</td>
+        <td style="padding: 4px 8px; color: #555;">2,38202</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">6</td>
+        <td style="padding: 4px 8px;">26</td>
+        <td style="padding: 4px 8px;">24</td>
+        <td style="padding: 4px 8px; color: #555;">-3,31461</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">7</td>
+        <td style="padding: 4px 8px;">10</td>
+        <td style="padding: 4px 8px;">12</td>
+        <td style="padding: 4px 8px; color: #555;">1,49438</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">8</td>
+        <td style="padding: 4px 8px;">15</td>
+        <td style="padding: 4px 8px;">16</td>
+        <td style="padding: 4px 8px; color: #555;">0,24157</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">9</td>
+        <td style="padding: 4px 8px;">0</td>
+        <td style="padding: 4px 8px;">2</td>
+        <td style="padding: 4px 8px; color: #555;">2,00000</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ccc; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">10</td>
+        <td style="padding: 4px 8px;">14</td>
+        <td style="padding: 4px 8px;">12</td>
+        <td style="padding: 4px 8px; color: #555;">-2,70787</td>
+      </tr>
+    </tbody>
+    <tfoot style="background-color: #f1f3f5; font-weight: bold; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+      <tr>
+        <td style="text-align: left; padding: 4px 8px;">Média ($\bar{x}, \bar{y}$)</td>
+        <td style="padding: 4px 8px;">18,70</td>
+        <td style="padding: 4px 8px;">17,80</td>
+        <td style="padding: 4px 8px; color: #555;">-0,00</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 4px 8px;">Mediana</td>
+        <td style="padding: 4px 8px;">15,50</td>
+        <td style="padding: 4px 8px;">15,00</td>
+        <td style="padding: 4px 8px; color: #555;">0,32</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 4px 8px;">Desvio Padrão ($s_x, s_y, s_r$)</td>
+        <td style="padding: 4px 8px;">10,36</td>
+        <td style="padding: 4px 8px;">9,99</td>
+        <td style="padding: 4px 8px; color: #555;">1,87</td>
+      </tr>
+    </tfoot>
+  </table>
+
+</div>
+```
+
+## Estimador do total por razão com AAS {style="font-size: 0.75em;"}
+
+<br>
+
+**Exemplo 3: Estimação do Conteúdo Total de Açúcar**
+
+Num estudo para estimar o **conteúdo total de açúcar** de uma carga de laranjas num camião, foi recolhida uma amostra aleatória de **$n = 10$ laranjas**, as quais foram espremidas e pesadas.
+
+O **peso total de todas as laranjas** no camião (obtido pela diferença entre o peso do camião carregado e descarregado) é de **1800 libras**.
+
+**Objetivos:**
+
+1. Estimar **$\tau_y$**, o conteúdo total de açúcar da carga de laranjas.
+
+2. Calcular a margem de erro com 95% de confiança.
+
+---
+
+**Exemplo 4: Auditoria do Valor do Inventário Hospitalar**
+
+Um auditor deseja comparar o **valor total real do inventário ($\tau_y$)** de um hospital com o **valor registado no computador ($\tau_x$)**.
+
+**Informações**:
+
+* **População:** $N = 2100$ tipos de itens distintos no inventário do hospital.
+* **Valor Registado Total:** $\tau_x = \$45.000$ (obtidototalizando os registros do computador).
+* **Amostra Piloto:** Seleção aleatória de $n' = 15$ itens para contagem e avaliação real (Tabela seguinte).
+* **Motivação:** A contagem física completa de todos os itens seria extremamente dispendiosa e demorada.
+
+---
+
+**Objetivo**:
+
+Determinar o **tamanho da amostra ($n$)** para estimar o valor total real do inventário $\tau_y$ com uma **lmargem de erro de estimação de $B = \$500$**.
+
+---
+
+```{=html}
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 780px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 6px;">
+    Tabela — Valor do Inventário ($) (Amostra piloto $n' = 15$)
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 1.2rem; text-align: right; line-height: 1.15;">
+    <thead>
+      <tr style="border-top: 2px solid #333; border-bottom: 2px solid #333; background-color: #f8f9fa;">
+        <th style="text-align: center; padding: 4px 6px; font-weight: bold;">Item</th>
+        <th style="padding: 4px 6px; font-weight: bold;">Valor no Computador ($x_i$)</th>
+        <th style="padding: 4px 6px; font-weight: bold;">Valor Real ($y_i$)</th>
+        <th style="padding: 4px 6px; font-weight: bold; color: #555;">$y_i - rx_i$</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">1</td>
+        <td style="padding: 3px 6px;">15,0</td>
+        <td style="padding: 3px 6px;">14,0</td>
+        <td style="padding: 3px 6px; color: #555;">-0,72102</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">2</td>
+        <td style="padding: 3px 6px;">9,5</td>
+        <td style="padding: 3px 6px;">9,0</td>
+        <td style="padding: 3px 6px; color: #555;">-0,32331</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">3</td>
+        <td style="padding: 3px 6px;">14,2</td>
+        <td style="padding: 3px 6px;">12,5</td>
+        <td style="padding: 3px 6px; color: #555;">-1,43590</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">4</td>
+        <td style="padding: 3px 6px;">20,5</td>
+        <td style="padding: 3px 6px;">22,0</td>
+        <td style="padding: 3px 6px; color: #555;">1,88128</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">5</td>
+        <td style="padding: 3px 6px;">6,7</td>
+        <td style="padding: 3px 6px;">6,3</td>
+        <td style="padding: 3px 6px; color: #555;">-0,27539</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">6</td>
+        <td style="padding: 3px 6px;">9,8</td>
+        <td style="padding: 3px 6px;">8,4</td>
+        <td style="padding: 3px 6px; color: #555;">-1,21773</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">7</td>
+        <td style="padding: 3px 6px;">25,7</td>
+        <td style="padding: 3px 6px;">28,5</td>
+        <td style="padding: 3px 6px; color: #555;">3,27799</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">8</td>
+        <td style="padding: 3px 6px;">12,6</td>
+        <td style="padding: 3px 6px;">10,0</td>
+        <td style="padding: 3px 6px; color: #555;">-2,36565</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">9</td>
+        <td style="padding: 3px 6px;">15,1</td>
+        <td style="padding: 3px 6px;">14,4</td>
+        <td style="padding: 3px 6px; color: #555;">-0,41916</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">10</td>
+        <td style="padding: 3px 6px;">30,9</td>
+        <td style="padding: 3px 6px;">28,2</td>
+        <td style="padding: 3px 6px; color: #555;">-2,12529</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">11</td>
+        <td style="padding: 3px 6px;">7,3</td>
+        <td style="padding: 3px 6px;">15,5</td>
+        <td style="padding: 3px 6px; color: #555;">8,33577</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">12</td>
+        <td style="padding: 3px 6px;">28,6</td>
+        <td style="padding: 3px 6px;">26,3</td>
+        <td style="padding: 3px 6px; color: #555;">-1,76807</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 3px 6px;">13</td>
+        <td style="padding: 3px 6px;">14,7</td>
+        <td style="padding: 3px 6px;">13,1</td>
+        <td style="padding: 3px 6px; color: #555;">-1,32660</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 3px 6px;">14</td>
+        <td style="padding: 3px 6px;">20,5</td>
+        <td style="padding: 3px 6px;">19,5</td>
+        <td style="padding: 3px 6px; color: #555;">-0,61872</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ccc;">
+        <td style="text-align: center; padding: 3px 6px;">15</td>
+        <td style="padding: 3px 6px;">10,9</td>
+        <td style="padding: 3px 6px;">9,8</td>
+        <td style="padding: 3px 6px; color: #555;">-0,89727</td>
+      </tr>
+    </tbody>
+    <tfoot style="background-color: #f1f3f5; font-weight: bold; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+      <tr>
+        <td style="text-align: left; padding: 4px 6px;">Média ($\bar{x}, \bar{y}$)</td>
+        <td style="padding: 4px 6px;">16,13</td>
+        <td style="padding: 4px 6px;">15,83</td>
+        <td style="padding: 4px 6px; color: #555;">0,00</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 4px 6px;">Mediana</td>
+        <td style="padding: 4px 6px;">14,70</td>
+        <td style="padding: 4px 6px;">14,00</td>
+        <td style="padding: 4px 6px; color: #555;">-0,72</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 4px 6px;">Desvio Padrão ($s_x, s_y, s_r$)</td>
+        <td style="padding: 4px 6px;">7,57</td>
+        <td style="padding: 4px 6px;">7,38</td>
+        <td style="padding: 4px 6px; color: #555;">2,73</td>
+      </tr>
+    </tfoot>
+  </table>
+
+</div>
+```
+
+## Estimador da média por razão com AAS {style="font-size: 0.75em;"}
+
+<br>
+
+**Exemplo 5: Atualização de Dados Agrícolas ao Longo do Tempo**
+
+Um dos principais usos da **estimação por razão** é a atualização de informações ao longo do tempo, utilizando uma amostra de dados atuais para atualizar relatórios populacionais de anos anteriores.
+
+**Contexto do Estudo:**
+
+* **Cultura:** Cana-de-açúcar cultivada em **$N = 32$ condados** (Flórida, Havai, Luisiana e Texas).
+* **Cenário (Final de 1999):** Não existem dados completos para 1999, mas existem registos completos de **1997** e dados preliminares de uma amostra de **$n = 6$ condados** em 1999.
+* **Dados Populacionais Conhecidos de 1997 ($N = 32$):**
+  * Área média colhida por condado ($\mu_x$): **27 752 acres**
+  * Produção média por condado: **967 839 toneladas**
+
+---
+
+- **Objetivos:**
+
+1. Estimar a **área média colhida por condado** ($\mu_y$) para a cana-de-açúcar em **1999** considerando todos os 32 condados.
+
+2. Calcular a **margem de erro** com 95% de confiança para a estimativa.
+
+---
+
+```{=html}
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 850px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 8px;">
+    Tabela — Área colhida e produção de cana-de-açúcar (1997 e 1999) na amostra de condados
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 1.75rem; text-align: right; line-height: 1.2;">
+    <thead>
+      <tr style="border-top: 2px solid #333; border-bottom: 1px solid #ccc; background-color: #f8f9fa;">
+        <th style="text-align: left; padding: 6px 8px; font-weight: bold;" rowspan="2">Estado</th>
+        <th style="text-align: left; padding: 6px 8px; font-weight: bold;" rowspan="2">Condado</th>
+        <th style="text-align: center; padding: 6px 8px; border-left: 1px solid #ddd; font-weight: bold;" colspan="2">1999</th>
+        <th style="text-align: center; padding: 6px 8px; border-left: 1px solid #ddd; font-weight: bold;" colspan="2">1997</th>
+      </tr>
+      <tr style="border-bottom: 2px solid #333; background-color: #f8f9fa;">
+        <th style="padding: 5px 8px; border-left: 1px solid #ddd; font-weight: bold;">Área (acres)</th>
+        <th style="padding: 5px 8px; font-weight: bold;">Produção (ton)</th>
+        <th style="padding: 5px 8px; border-left: 1px solid #ddd; font-weight: bold;">Área (acres)</th>
+        <th style="padding: 5px 8px; font-weight: bold;">Produção (ton)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: left; padding: 5px 8px;">FL</td>
+        <td style="text-align: left; padding: 5px 8px;">Hendry</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">57,000</td>
+        <td style="padding: 5px 8px;">2,012,100</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">54,000</td>
+        <td style="padding: 5px 8px;">2,008,000</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: left; padding: 5px 8px;">HI</td>
+        <td style="text-align: left; padding: 5px 8px;">Kauai</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">13,900</td>
+        <td style="padding: 5px 8px;">917,000</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">12,300</td>
+        <td style="padding: 5px 8px;">1,141,000</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: left; padding: 5px 8px;">LA</td>
+        <td style="text-align: left; padding: 5px 8px;">Saint Landry</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">15,500</td>
+        <td style="padding: 5px 8px;">470,000</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">9,100</td>
+        <td style="padding: 5px 8px;">270,000</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: left; padding: 5px 8px;">LA</td>
+        <td style="text-align: left; padding: 5px 8px;">Calcasieu</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">3,900</td>
+        <td style="padding: 5px 8px;">120,000</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">1,700</td>
+        <td style="padding: 5px 8px;">45,000</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: left; padding: 5px 8px;">LA</td>
+        <td style="text-align: left; padding: 5px 8px;">Iberia</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">59,900</td>
+        <td style="padding: 5px 8px;">1,900,000</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">57,200</td>
+        <td style="padding: 5px 8px;">1,655,000</td>
+      </tr>
+      <tr style="border-bottom: 2px solid #333; background-color: #fcfcfc;">
+        <td style="text-align: left; padding: 5px 8px;">TX</td>
+        <td style="text-align: left; padding: 5px 8px;">Cameron</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">10,400</td>
+        <td style="padding: 5px 8px;">335,300</td>
+        <td style="border-left: 1px solid #eee; padding: 5px 8px;">12,900</td>
+        <td style="padding: 5px 8px;">382,500</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size: 0.70rem; color: #666; margin-top: 6px;">
+    <strong>Fonte:</strong> National Agricultural Statistics Service (USDA)
+  </p>
+
+</div>
+```
+
+---
+
+**Exemplo 6: Tamanho da Amostra para Estimativa do Número Médio de Árvores**
+
+Uma investigadora pretende estimar o **número médio de árvores por acre ($\mu_y$)** numa plantação com **$N = 1000$ acres**.
+
+**Informações**:
+
+* **Amostragem:** Seleção de $n$ parcelas de 1 acre para contagem do número real de árvores ($y$).
+* **Informação Auxiliar ($x$):** Fotografias aéreas de toda a plantação fornecem a estimativa do número de árvores ($x$) em cada parcela, tornando a média $\mu_x$ aproximadamente conhecida.
+* **Dados Piloto:** Amostra preliminar de $n' = 10$ parcelas (Tabela seguinte).
+
+---
+
+**Objetivo**:
+
+Determinar o **tamanho da amostra ($n$)** para estimar $\mu_y$ através de um estimador de razão com um **margem de erro de estimação de $B = 1,0$**.
+
+---
+
+```{=html}
+<div style="font-family: Arial, sans-serif; width: 100%; max-width: 780px; margin: 0 auto;">
+  
+  <p style="font-weight: bold; font-size: 0.9rem; color: #333; margin-bottom: 6px;">
+    Tabela — Número de árvores por parcela (Amostra piloto $n' = 10$)
+  </p>
+
+  <table style="width: 100%; border-collapse: collapse; font-size: 1.5rem; text-align: right; line-height: 1.2;">
+    <thead>
+      <tr style="border-top: 2px solid #333; border-bottom: 2px solid #333; background-color: #f8f9fa;">
+        <th style="text-align: center; padding: 5px 8px; font-weight: bold;">Parcela</th>
+        <th style="padding: 5px 8px; font-weight: bold;">Estimativa Aérea ($x_i$)</th>
+        <th style="padding: 5px 8px; font-weight: bold;">Número Real ($y_i$)</th>
+        <th style="padding: 5px 8px; font-weight: bold; color: #555;">$y_i - rx_i$</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">1</td>
+        <td style="padding: 4px 8px;">23</td>
+        <td style="padding: 4px 8px;">25</td>
+        <td style="padding: 4px 8px; color: #555;">0,5625</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">2</td>
+        <td style="padding: 4px 8px;">14</td>
+        <td style="padding: 4px 8px;">15</td>
+        <td style="padding: 4px 8px; color: #555;">0,1250</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">3</td>
+        <td style="padding: 4px 8px;">20</td>
+        <td style="padding: 4px 8px;">22</td>
+        <td style="padding: 4px 8px; color: #555;">0,7500</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">4</td>
+        <td style="padding: 4px 8px;">25</td>
+        <td style="padding: 4px 8px;">24</td>
+        <td style="padding: 4px 8px; color: #555;">-2,5625</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">5</td>
+        <td style="padding: 4px 8px;">12</td>
+        <td style="padding: 4px 8px;">13</td>
+        <td style="padding: 4px 8px; color: #555;">0,2500</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">6</td>
+        <td style="padding: 4px 8px;">18</td>
+        <td style="padding: 4px 8px;">18</td>
+        <td style="padding: 4px 8px; color: #555;">-1,1250</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">7</td>
+        <td style="padding: 4px 8px;">30</td>
+        <td style="padding: 4px 8px;">35</td>
+        <td style="padding: 4px 8px; color: #555;">3,1250</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">8</td>
+        <td style="padding: 4px 8px;">27</td>
+        <td style="padding: 4px 8px;">30</td>
+        <td style="padding: 4px 8px; color: #555;">1,3125</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #eee;">
+        <td style="text-align: center; padding: 4px 8px;">9</td>
+        <td style="padding: 4px 8px;">8</td>
+        <td style="padding: 4px 8px;">10</td>
+        <td style="padding: 4px 8px; color: #555;">1,5000</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #ccc; background-color: #fcfcfc;">
+        <td style="text-align: center; padding: 4px 8px;">10</td>
+        <td style="padding: 4px 8px;">31</td>
+        <td style="padding: 4px 8px;">29</td>
+        <td style="padding: 4px 8px; color: #555;">-3,9375</td>
+      </tr>
+    </tbody>
+    <tfoot style="background-color: #f1f3f5; font-weight: bold; border-top: 2px solid #333; border-bottom: 2px solid #333;">
+      <tr>
+        <td style="text-align: left; padding: 4px 8px;">Média ($\bar{x}, \bar{y}$)</td>
+        <td style="padding: 4px 8px;">22,10</td>
+        <td style="padding: 4px 8px;">20,80</td>
+        <td style="padding: 4px 8px; color: #555;">0,000</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 4px 8px;">Mediana</td>
+        <td style="padding: 4px 8px;">23,00</td>
+        <td style="padding: 4px 8px;">21,50</td>
+        <td style="padding: 4px 8px; color: #555;">0,41</td>
+      </tr>
+      <tr>
+        <td style="text-align: left; padding: 4px 8px;">Desvio Padrão ($s_x, s_y, s_r$)</td>
+        <td style="padding: 4px 8px;">8,06</td>
+        <td style="padding: 4px 8px;">7,79</td>
+        <td style="padding: 4px 8px; color: #555;">2,06</td>
+      </tr>
+    </tfoot>
+  </table>
+
+</div>
+```
 
 ---
 
