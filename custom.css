@@ -51,3 +51,6 @@
 .justificado {
   text-align: justify;
 }
+.reveal h1 {
+  color: #ffffff !important;
+}

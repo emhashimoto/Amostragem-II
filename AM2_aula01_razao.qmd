@@ -1,0 +1,41 @@
+---
+title: "AM2"
+title-slide-attributes:
+    data-background-image: imagem-am2/fundo_am2.png
+    data-background-size: 100%
+    #data-background-opacity: "0.85"
+author: "Elizabeth Mie Hashimoto"
+institute: "elizabeth.hashimoto@unesp.br"
+format:
+  revealjs:
+    #incremental: true
+    footer: "Estimadores do Tipo Razão"
+    logo: imagem-am2/logo_unesp.png
+    slide-number: false
+    multiplex: false
+    theme: [solarized, tema.scss]
+    show-slide-number: print
+    controls: true
+    width: 1280
+    height: 720
+    css: [custom.css]
+    menu: true
+    chalkboard: true
+execute:
+  echo: false
+from: markdown+emoji
+---
+
+# Estimadores do tipo razão {background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)"}
+
+# Título no Meio da Apresentação
+<!-- Este slide será gerado como um "Title Slide" de seção -->
+
+## Slide Normal 2
+Conteúdo do slide seguinte.
+
+---
+
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExejZnamRyd3d2dGE5bm9tc2lrdDVzbDk2ODI1dnYxMDF1bjEwaHB1MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lD76yTC5zxZPG/giphy.gif" width="70%">
+</div>
