@@ -58,6 +58,19 @@ Um dos principais usos da **estimação por razão** é a atualização de infor
 
 2. Calcular a **margem de erro** com 95% de confiança para a estimativa.
 
+## 📝Tamanho da amostra {style="font-size: 0.75em;"}
+
+<br>
+
+Uma investigadora pretende estimar o **número médio de árvores por acre ($\mu_y$)** numa plantação com **$N = 1000$ acres**.
+
+**Informações**:
+
+* **Amostragem:** Seleção de $n$ parcelas de 1 acre para contagem do número real de árvores ($y$).
+* **Informação Auxiliar ($x$):** Fotografias aéreas de toda a plantação fornecem a estimativa do número de árvores ($x$) em cada parcela, tornando a média $\mu_x$ aproximadamente conhecida.
+* **Dados Piloto:** Amostra preliminar de $n' = 10$ parcelas (Tabela seguinte).
+
+Determinar o **tamanho da amostra ($n$)** para estimar $\mu_y$ através de um estimador de razão com um **margem de erro de estimação de $B = 1,0$**.
 
 # Estimadores do tipo regressão{background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)"}
 
