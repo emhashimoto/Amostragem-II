@@ -1,0 +1,123 @@
+---
+title: "AM2"
+title-slide-attributes:
+    data-background-image: imagem-am2/fundo_am2.png
+    data-background-size: 100%
+    #data-background-opacity: "0.85"
+author: "Elizabeth Mie Hashimoto"
+institute: "elizabeth.hashimoto@unesp.br"
+format:
+  revealjs:
+    #incremental: true
+    footer: "Amostragem por conglomerado"
+    logo: imagem-am2/logo_unesp.png
+    slide-number: false
+    multiplex: false
+    theme: [solarized, tema.scss]
+    show-slide-number: print
+    controls: true
+    width: 1280
+    height: 720
+    css: [custom.css]
+    menu: true
+    chalkboard: true
+execute:
+  echo: false
+from: markdown+emoji
+---
+
+## ⏳Aula passada
+
+<br>
+
+- Definir os estimadores tipos regressão: AAS
+
+- Obtenção do tamanho da amostra
+
+- Exemplos de aplicação
+
+- Avaliação 1
+
+# Amostragem por conglomerado {background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)"}
+
+
+## ✨ Motivação {style="font-size: 0.75em;"}
+
+<br>
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+![](fig-am2/motivacao_conglomerado.png)
+
+A amostragem aleatória simples requer um cadastro completo de todos os elementos da população
+:::
+
+::: {.column width="50%"}
+
+:::{.fragment}
+![](fig-am2/motivacao_conglomerado1.png)
+
+Elementos espalhados geograficamente
+:::
+:::
+:::
+
+---
+
+<br>
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYXpjdTlza2xyZGt0c21mcHE0ODR0ajh2a3pramFsaTJxM3RybDJkaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/vTs6IEzlyfbOcoW72O/giphy.gif" width="70%">
+</div>
+:::
+
+::: {.column width="50%"}
+
+<br>
+<br>
+
+::: {.callout-tip title="Ideia"}
+**MUDAR** a unidade amostral
+:::
+:::
+:::
+
+---
+
+<iframe src="fig-am2/teste.html" width="100%" height="800px" style="border:none;"></iframe>
+
+---
+
+<br>
+
+::: {.columns}
+
+::: {.column width="50%"}
+Amostragem estratificada
+
+![](fig-am2/conglomerado_div.png)
+:::
+
+::: {.column width="50%"}
+
+:::{.fragment}
+Amostragem por conglomerado
+
+![](fig-am2/conglomerado_div1.png)
+:::
+:::
+:::
+
+## 📘 Um estágio {style="font-size: 0.75em;"}
+
+---
+
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExejZnamRyd3d2dGE5bm9tc2lrdDVzbDk2ODI1dnYxMDF1bjEwaHB1MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lD76yTC5zxZPG/giphy.gif" width="70%">
+</div>

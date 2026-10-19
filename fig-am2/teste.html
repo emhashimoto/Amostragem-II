@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Solução: Mudar a Unidade de Sorteio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos adicionais para animações suaves */
+        .cluster {
+            transition: all 0.5s ease-in-out;
+        }
+        .dot {
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+        }
+        .dot.active {
+            transform: scale(1.3);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800 min-h-screen flex items-center justify-center p-4 sm:p-8 font-sans">
+
+    <div class="max-w-4xl w-full flex flex-col gap-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] p-6 sm:p-10 rounded-2xl border border-gray-100">
+        
+        <!-- Cabeçalho -->
+        <header class="text-center space-y-2">
+            <h1 class="text-3xl sm:text-4xl font-bold text-[#C34925]">A Solução: Mudar a Unidade de Sorteio</h1>
+            <p class="text-lg text-gray-600 font-medium">De elementos isolados para conglomerados geográficos ou institucionais</p>
+        </header>
+
+        <div class="min-h-[6rem] flex items-center justify-center text-center px-2 sm:px-8">
+            <p id="description-text" class="text-gray-700 text-base sm:text-lg"></p>
+        </div>
+
+        <!-- Área de Animação (Grid) -->
+        <div class="relative bg-white border-2 border-gray-100 rounded-xl p-4 sm:p-8 aspect-square sm:aspect-video flex items-center justify-center overflow-hidden">
+            
+            <!-- O grid de conglomerados será gerado pelo JS -->
+            <div id="population-grid" class="grid grid-cols-4 sm:grid-cols-5 gap-2 sm:gap-4 w-full h-full max-w-3xl">
+                <!-- Conteúdo injetado via JS -->
+            </div>
+
+        </div>
+
+        <!-- Controles -->
+        <div class="flex justify-center mt-2">
+            <button id="play-btn" onclick="startAnimation()" class="bg-[#C34925] hover:bg-[#a63d1e] text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-orange-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                Reproduzir Animação
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const RUST_COLOR = '#C34925';
+        const NUM_CLUSTERS = 20; // 5 colunas x 4 linhas
+        const DOTS_PER_CLUSTER = 9; // 3x3 dots por cluster
+
+        const gridElement = document.getElementById('population-grid');
+        const descriptionText = document.getElementById('description-text');
+        const playBtn = document.getElementById('play-btn');
+
+        let allDots = [];
+        let allClusters = [];
+
+        // Inicializa a grade visual
+        function initGrid() {
+            gridElement.innerHTML = '';
+            allDots = [];
+            allClusters = [];
+
+            for (let i = 0; i < NUM_CLUSTERS; i++) {
+                // Cria o Conglomerado (Cluster)
+                const cluster = document.createElement('div');
+                cluster.className = 'cluster grid grid-cols-3 gap-1 p-2 border-2 border-transparent rounded-lg';
+                
+                let clusterDots = [];
+
+                // Cria os Elementos (Dots) dentro do conglomerado
+                for (let j = 0; j < DOTS_PER_CLUSTER; j++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-gray-200 mx-auto';
+                    cluster.appendChild(dot);
+                    allDots.push(dot);
+                    clusterDots.push(dot);
+                }
+
+                allClusters.push({ element: cluster, dots: clusterDots });
+                gridElement.appendChild(cluster);
+            }
+        }
+
+        // Reseta o estado visual para o inicial
+        function resetState() {
+            allClusters.forEach(clusterObj => {
+                clusterObj.element.className = 'cluster grid grid-cols-3 gap-1 p-2 border-2 border-transparent rounded-lg bg-transparent';
+                clusterObj.dots.forEach(dot => {
+                    dot.className = 'dot w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-gray-200 mx-auto';
+                });
+            });
+        }
+
+        // Embaralha um array (Fisher-Yates)
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Controla a sequência de animações
+        async function startAnimation() {
+            playBtn.disabled = true;
+            resetState();
+
+            // FASE 1: AAS (Elementos dispersos)
+            await runStage(
+                "<strong>Fase 1: Amostragem Aleatória Simples (AAS)</strong><br>Sorteamos elementos individuais. A amostra fica espalhada por todo o território, exigindo longos deslocamentos e altos custos para entrevistar cada ponto isolado.",
+                () => {
+                    const randomDots = shuffle([...allDots]).slice(0, 15); // Seleciona 15 pontos aleatórios no total
+                    randomDots.forEach(dot => {
+                        dot.classList.remove('bg-gray-200');
+                        dot.classList.add(`bg-[${RUST_COLOR}]`, 'active');
+                    });
+                }, 
+                0
+            );
+
+            // FASE 2: Agrupamento (Linhas delimitando os clusters)
+            await runStage(
+                "<strong>Fase 2: Agrupamento da População</strong><br>Para resolver isso, dividimos toda a população em grupos (os 'conglomerados'), como quarteirões, empresas, turmas de escola ou contêineres.",
+                () => {
+                    allClusters.forEach(clusterObj => {
+                        clusterObj.element.classList.remove('border-transparent');
+                        clusterObj.element.classList.add('border-dashed', 'border-gray-300');
+                    });
+                }, 
+                4000 // Aguarda 4 segundos após a fase 1
+            );
+
+            // FASE 3: Sorteio de Conglomerados
+            await runStage(
+                "<strong>Fase 3: Sorteio dos Conglomerados</strong><br>Sorteamos <em>grupos inteiros</em> em vez de pessoas isoladas. O pesquisador viaja até os grupos sorteados e entrevista todos (ou muitos) elementos lá dentro. A logística torna-se viável!",
+                () => {
+                    // Limpa pontos da Fase 1
+                    resetState();
+                    
+                    // Remarca as bordas tracejadas rapidamente
+                    allClusters.forEach(c => c.element.classList.add('border-dashed', 'border-gray-300'));
+
+                    // Seleciona 3 clusters aleatórios
+                    const selectedClusters = shuffle([...allClusters]).slice(0, 4);
+                    
+                    selectedClusters.forEach(clusterObj => {
+                        // Estiliza a caixa do cluster
+                        clusterObj.element.classList.remove('border-dashed', 'border-gray-300', 'border-transparent');
+                        clusterObj.element.classList.add('border-solid', `border-[${RUST_COLOR}]`, 'bg-orange-50', 'shadow-md', 'transform', 'scale-105');
+                        
+                        // Pinta todos os pontos dentro desse cluster
+                        clusterObj.dots.forEach(dot => {
+                            dot.classList.remove('bg-gray-200');
+                            dot.classList.add(`bg-[${RUST_COLOR}]`, 'active');
+                        });
+                    });
+                }, 
+                4000 // Aguarda 4 segundos após a fase 2
+            );
+
+            // Fim da animação
+            setTimeout(() => {
+                playBtn.disabled = false;
+                playBtn.innerText = "Repetir Animação";
+            }, 1000);
+        }
+
+        // Função auxiliar para controlar os tempos (delay)
+        function runStage(text, action, delayMs) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    descriptionText.style.opacity = 0; // Fade out do texto
+                    setTimeout(() => {
+                        descriptionText.innerHTML = text;
+                        descriptionText.style.opacity = 1; // Fade in do texto
+                        action();
+                        resolve();
+                    }, 300); // Tempo do fade out do texto
+                }, delayMs);
+            });
+        }
+
+        // Adiciona transição na opacidade do texto para ficar suave
+        descriptionText.style.transition = 'opacity 0.3s ease-in-out';
+
+        // Inicializa ao carregar a página
+        window.onload = initGrid;
+
+    </script>
+</body>
+</html>

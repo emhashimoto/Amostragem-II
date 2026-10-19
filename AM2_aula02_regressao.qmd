@@ -30,7 +30,7 @@ from: markdown+emoji
 
 <br>
 
-- Definir os estimadores tipos regressão: AAS
+- Definir os estimadores tipos razão: AAS
 
 - Obtenção do tamanho da amostra
 
