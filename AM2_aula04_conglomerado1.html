@@ -130,6 +130,10 @@
       margin-right: 0; 
     }
   </style>
+  <script src="AM2_aula04_conglomerado1_files/libs/kePrint-0.0.1/kePrint.js"></script>
+
+  <link href="AM2_aula04_conglomerado1_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -165,10 +169,11 @@ Elizabeth Mie Hashimoto
 <h1>Conglomerado em Um Estágio</h1>
 
 </section>
-<section id="um-estágio" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 Um estágio</h2>
+<section id="tamanho-da-amostra" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Tamanho da amostra</h2>
+<p><br></p>
 <div class="justificado">
-<p><strong>Exemplo 1</strong>: Um pesquisador deseja estimar a renda per capita dos habitantes de uma cidade. Como não existe uma listagem cadastral de todos os moradores (elementos da população), optou-se pelo uso da Amostragem por Conglomerados em Um Estágio. A cidade foi mapeada e dividida em um total de <span class="math inline">\(N = 415\)</span> conglomerados (compostos por quarteirões residenciais, além de agrupamentos de áreas industriais e parques). Por restrições orçamentárias e de tempo, selecionou-se uma amostra aleatória simples de <span class="math inline">\(n = 5\)</span> conglomerados. Em cada um dos <span class="math inline">\(5\)</span> conglomerados sorteados, realizou-se um censo local, entrevistando-se todos os domicílios e moradores.</p>
+<p><strong>Exemplo 1</strong>: Um estudo socioeconômico municipal tem como objetivo estimar a renda média per capita (<span class="math inline">\(\mu\)</span>) dos habitantes de uma cidade constituída por <span class="math inline">\(N = 415\)</span> quarteirões (conglomerados). Como os tamanhos dos quarteirões (<span class="math inline">\(m_i\)</span>) variam e não se conhece previamente a renda individual de cada morador, realizou-se um estudo piloto com uma amostra aleatória simples de <span class="math inline">\(n = 5\)</span> quarteirões. Os dados obtidos no estudo piloto (número de residentes <span class="math inline">\(m_i\)</span> e renda total do quarteirão <span class="math inline">\(y_i\)</span>) estão resumidos na tabela seguinte.</p>
 </div>
 
 <meta charset="UTF-8">
@@ -253,11 +258,135 @@ residentes</th>
 </section>
 <section class="slide level2">
 
-<p>Com base nos dados da amostra recolhida nos <span class="math inline">\(5\)</span> conglomerados:</p>
-<ul>
-<li><p>Estime a renda per capita (<span class="math inline">\(\mu\)</span>) da população da cidade.</p></li>
-<li><p>Determine a margem de erro, considerando 95% de confiança.</p></li>
-</ul>
+<div class="justificado">
+<p>Determine quantos quarteirões (<span class="math inline">\(n\)</span>) devem ser amostrados em uma pesquisa definitiva para estimar a renda média per capita <span class="math inline">\(\mu\)</span> com uma margem de <span class="math inline">\(B = 0,5\)</span> e aproximadamente de 95% de confiança.</p>
+</div>
+</section>
+<section id="conglomerados-de-tamanho-iguais" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Conglomerados de tamanho iguais</h2>
+<p><br></p>
+<div class="justificado">
+<p><strong>Exemplo 2</strong>: O gestor de circulação de um jornal pretende estimar o número médio de jornais comprados por agregado familiar numa determinada comunidade. Como os custos de deslocação entre habitações são elevados, os <span class="math inline">\(M = 4000\)</span> agregados familiares da comunidade foram agrupados em <span class="math inline">\(N = 400\)</span> conglomerados geográficos de <span class="math inline">\(m = 10\)</span> agregados familiares cada.</p>
+<p>Foi selecionada uma amostra aleatória simples de <span class="math inline">\(n = 4\)</span> conglomerados e recolheram-se os dados apresentados na tabela seguinte</p>
+</div>
+<table class="caption-top" data-border="1" data-cellpadding="8" data-cellspacing="0">
+<thead>
+<tr class="header">
+<th style="text-align: center;" data-quarto-table-cell-role="th">Conglomerado</th>
+<th data-quarto-table-cell-role="th">Número de jornais por agregado familiar</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">Total do conglomerado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td>1, 2, 1, 3, 3, 2, 1, 4, 1, 1</td>
+<td style="text-align: center;">19</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td>1, 3, 2, 2, 3, 1, 4, 1, 1, 2</td>
+<td style="text-align: center;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td>2, 1, 1, 1, 1, 3, 2, 1, 3, 1</td>
+<td style="text-align: center;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td>1, 1, 3, 2, 1, 5, 1, 2, 3, 1</td>
+<td style="text-align: center;">20</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section class="slide level2">
+
+<div class="justificado">
+<p>a)Estime o número médio de jornais comprados por agregado familiar (<span class="math inline">\(\mu\)</span>) em toda a comunidade e calcule a respectiva margem de erro com aproximadamente 95% de confiança.</p>
+<p><br></p>
+<p>b)Admitindo que os dados acima servem como estudo piloto, determine quantos conglomerados (<span class="math inline">\(n\)</span>) deverão ser amostrados num estudo futuro para estimar a média <span class="math inline">\(\mu\)</span> com um limite para o erro de estimação não superior a <span class="math inline">\(B = 0,10\)</span> jornais.</p>
+</div>
+</section>
+<section id="amostragem-com-probabilidade-proporcional-ao-tamamho" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Amostragem com probabilidade proporcional ao tamamho</h2>
+<p><br></p>
+<div class="justificado">
+<p><strong>Exemplo 3</strong>: rede municipal tem <span class="math inline">\(N=8\)</span> escolas, cada uma tratada como um conglomerado de alunos. O número de matrículas <span class="math inline">\(m_i\)</span> de cada escola é conhecido:</p>
+</div>
+<table class="caption-top" data-border="1" data-cellpadding="12" data-cellspacing="0" style="font-size: 30px;">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Escola</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">1</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">2</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">3</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">4</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">5</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">6</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">7</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Alunos</strong></td>
+<td style="text-align: center;">420</td>
+<td style="text-align: center;">180</td>
+<td style="text-align: center;">650</td>
+<td style="text-align: center;">300</td>
+<td style="text-align: center;">520</td>
+<td style="text-align: center;">240</td>
+<td style="text-align: center;">380</td>
+<td style="text-align: center;">310</td>
+</tr>
+</tbody>
+</table>
+<div class="justificado">
+<p>A secretaria quer estimar o número médio de faltas por aluno no semestre e o total de faltas da rede. Como as escolas são muito diferentes em tamanho, decidiu-se sortear <span class="math inline">\(n=4\)</span> escolas com probabilidade proporcional ao número de alunos, com reposição. Em cada escola sorteada, todos os alunos tiveram suas faltas contadas.</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover table-condensed caption-top" style="font-size: 36px; width: auto !important; margin-left: auto; margin-right: auto;">
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="slide level2">
+
+<p>Os totais de faltas nas escolas sorteadas foram:</p>
+<table class="caption-top" data-border="1" data-cellpadding="8" data-cellspacing="0" style="font-size: 30px">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Escola</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">4</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">6</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Total de faltas (<em>y<sub>i</sub></em>)</strong></td>
+<td style="text-align: center;">5200</td>
+<td style="text-align: center;">3744</td>
+<td style="text-align: center;">3610</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Calcule a média de faltas por aluno de cada escola sorteada.</p></li>
+<li><p>Calcule <span class="math inline">\(\hat\mu_{ppt}\)</span>.</p></li>
+<li><p>Calcule <span class="math inline">\(\hat V(\hat\mu_{ppt})\)</span> e a margem de erro com 95% de confiança.</p></li>
+</ol>
 </section>
 <section class="slide level2">
 
@@ -484,6 +613,82 @@ residentes</th>
         ]
       });
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

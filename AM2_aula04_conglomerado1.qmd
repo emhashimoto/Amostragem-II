@@ -41,10 +41,12 @@ from: markdown+emoji
 # Conglomerado em Um Estágio {background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)"}
 
 
-## 📘 Um estágio {style="font-size: 0.75em;"}
+## 📘 Tamanho da amostra {style="font-size: 0.75em;"}
+
+<br>
 
 :::{.justificado}
-**Exemplo 1**: Um pesquisador deseja estimar a renda per capita dos habitantes de uma cidade. Como não existe uma listagem cadastral de todos os moradores (elementos da população), optou-se pelo uso da Amostragem por Conglomerados em Um Estágio.   A cidade foi mapeada e dividida em um total de $N = 415$ conglomerados (compostos por quarteirões residenciais, além de agrupamentos de áreas industriais e parques). Por restrições orçamentárias e de tempo, selecionou-se uma amostra aleatória simples de $n = 5$ conglomerados. Em cada um dos $5$ conglomerados sorteados, realizou-se um censo local, entrevistando-se todos os domicílios e moradores.  
+**Exemplo 1**: Um estudo socioeconômico municipal tem como objetivo estimar a renda média per capita ($\mu$) dos habitantes de uma cidade constituída por $N = 415$ quarteirões (conglomerados). Como os tamanhos dos quarteirões ($m_i$) variam e não se conhece previamente a renda individual de cada morador, realizou-se um estudo piloto com uma amostra aleatória simples de $n = 5$ quarteirões.   Os dados obtidos no estudo piloto (número de residentes $m_i$ e renda total do quarteirão $y_i$) estão resumidos na tabela seguinte.
 :::
 
 ```{=html}
@@ -123,11 +125,176 @@ from: markdown+emoji
 
 ---
 
-Com base nos dados da amostra recolhida nos $5$ conglomerados:   
+:::{.justificado}
+Determine quantos quarteirões ($n$) devem ser amostrados em uma pesquisa definitiva para estimar a renda média per capita $\mu$ com uma margem de $B = 0,5$ e aproximadamente de 95% de confiança.
+:::
 
-- Estime a renda per capita ($\mu$) da população da cidade.   
+---
 
-- Determine a margem de erro, considerando 95% de confiança. 
+## 📘 Conglomerados de tamanho iguais {style="font-size: 0.75em;"}
+
+<br>
+
+:::{.justificado}
+**Exemplo 2**: O gestor de circulação de um jornal pretende estimar o número médio de jornais comprados por agregado familiar numa determinada comunidade. Como os custos de deslocação entre habitações são elevados, os $M = 4000$ agregados familiares da comunidade foram agrupados em $N = 400$ conglomerados geográficos de $m = 10$ agregados familiares cada.  
+
+Foi selecionada uma amostra aleatória simples de $n = 4$ conglomerados e recolheram-se os dados apresentados na tabela seguinte
+::: 
+
+```{=html}
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Conglomerado</th>
+      <th>Número de jornais por agregado familiar</th>
+      <th>Total do conglomerado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center">1</td>
+      <td>1, 2, 1, 3, 3, 2, 1, 4, 1, 1</td>
+      <td align="center">19</td>
+    </tr>
+    <tr>
+      <td align="center">2</td>
+      <td>1, 3, 2, 2, 3, 1, 4, 1, 1, 2</td>
+      <td align="center">20</td>
+    </tr>
+    <tr>
+      <td align="center">3</td>
+      <td>2, 1, 1, 1, 1, 3, 2, 1, 3, 1</td>
+      <td align="center">16</td>
+    </tr>
+    <tr>
+      <td align="center">4</td>
+      <td>1, 1, 3, 2, 1, 5, 1, 2, 3, 1</td>
+      <td align="center">20</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+---
+
+:::{.justificado}
+a)Estime o número médio de jornais comprados por agregado familiar ($\mu$) em toda a comunidade e calcule a respectiva margem de erro com aproximadamente 95% de confiança. 
+
+<br>
+
+b)Admitindo que os dados acima servem como estudo piloto, determine quantos conglomerados ($n$) deverão ser amostrados num estudo futuro para estimar a média $\mu$ com um limite para o erro de estimação não superior a $B = 0,10$ jornais.
+:::
+
+---
+
+## 📘 Amostragem com probabilidade proporcional ao tamamho {style="font-size: 0.75em;"}
+
+<br>
+
+:::{.justificado}
+**Exemplo 3**: rede municipal tem $N=8$ escolas, cada uma tratada como um conglomerado de alunos. O número de matrículas $m_i$ de cada escola é conhecido:
+:::
+
+```{=html}
+<table border="1" cellpadding="12" cellspacing="0" style="font-size: 30px;">
+  <thead>
+    <tr>
+      <th>Escola</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Alunos</strong></td>
+      <td align="center">420</td>
+      <td align="center">180</td>
+      <td align="center">650</td>
+      <td align="center">300</td>
+      <td align="center">520</td>
+      <td align="center">240</td>
+      <td align="center">380</td>
+      <td align="center">310</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+:::{.justificado}
+A secretaria quer estimar o número médio de faltas por aluno no semestre e o total de faltas da rede. Como as escolas são muito diferentes em tamanho, decidiu-se sortear $n=4$ escolas com probabilidade proporcional ao número de alunos, com reposição. Em cada escola sorteada, todos os alunos tiveram suas faltas contadas.
+:::
+
+```{r}
+#Semente
+set.seed(12345)
+
+#Escolas a serem sorteados
+escolas <- seq(1,8,1)
+
+#Alunos de cada escola
+alunos <- c(420,180,650,300,520,240,380,310)
+
+#Total de alunos
+M <- sum(alunos)
+
+#Probabilidades associadas a cada escola
+probabilidades <- alunos/M
+
+# 3. Realização do sorteio
+sorteio <- sample(
+  x = escolas,
+  size = 4,             # Quantidade de sorteios desejada
+  replace = TRUE,        # Sorteio COM reposição
+  prob = probabilidades  # Vetor de probabilidades
+)
+```
+```{r}
+library(knitr)
+library(kableExtra)
+
+kable(t(sorteio), format = "html") |> 
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"), 
+    font_size = 36,
+    full_width = FALSE)
+```
+
+---
+
+Os totais de faltas nas escolas sorteadas foram:
+
+```{=html}
+<table border="1" cellpadding="8" cellspacing="0" style="font-size: 30px">
+  <thead>
+    <tr>
+      <th>Escola</th>
+      <th>4</th>
+      <th>6</th>
+      <th>8</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Total de faltas (<i>y<sub>i</sub></i>)</strong></td>
+      <td align="center">5200</td>
+      <td align="center">3744</td>
+      <td align="center">3610</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+a) Calcule a média de faltas por aluno de cada escola sorteada.
+
+b) Calcule $\hat\mu_{ppt}$.
+
+c) Calcule $\hat V(\hat\mu_{ppt})$ e a margem de erro com 95% de confiança.
 
 ---
 
