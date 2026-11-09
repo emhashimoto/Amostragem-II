@@ -72,16 +72,20 @@ from: markdown+emoji
 <iframe data-src="conglomerado_2e.html" width="100%" height="600px" style="border:none;"></iframe>
 
 
-## 📘 Dois estágios {style="font-size: 0.75em;"}
+## 📘 *M* conhecido  {style="font-size: 0.75em;"}
+
+<br>
 
 :::{.justificado}
-**Exemplo 1**: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar $n = 10$ fábricas e aproximadamente $20\%$ das máquinas de cada fábrica. Utilizando os dados da Tabela 9.1, estime o tempo médio de inatividade por máquina. 
+**Exemplo 1**: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar $n = 10$ fábricas e aproximadamente $20\%$ das máquinas de cada fábrica. Os dados coletados são apresentados na Tabela 1. 
+
+Sabendo que o total de máquinas em todas as fábricas é igual a 4500, estime o tempo médio de inatividade e o intervalo de 95% de confiança. 
 :::
 
 ---
 
 ```{=html}
-<table>
+<table style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
   <caption><strong>Tabela 1:</strong> Tempo de inatividade das máquinas de costura</caption>
   <thead>
     <tr>
@@ -89,8 +93,6 @@ from: markdown+emoji
       <th>M<sub>i</sub></th>
       <th>m<sub>i</sub></th>
       <th>Tempo de inatividade (horas)</th>
-      <th>ȳ<sub>i</sub></th>
-      <th>s<sub>i</sub><sup>2</sup></th>
     </tr>
   </thead>
   <tbody>
@@ -99,89 +101,204 @@ from: markdown+emoji
       <td>50</td>
       <td>10</td>
       <td>5, 7, 9, 0, 11, 2, 8, 4, 3, 5</td>
-      <td>5.40</td>
-      <td>11.38</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>65</td>
-      <td>13</td>
-      <td>4, 3, 7, 2, 11, 0, 1, 9, 4, 3, 2, 1, 5</td>
-      <td>4.00</td>
-      <td>10.67</td>
     </tr>
     <tr>
       <td>3</td>
       <td>45</td>
       <td>9</td>
       <td>5, 6, 4, 11, 12, 0, 1, 8, 4</td>
-      <td>5.67</td>
-      <td>16.75</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>48</td>
-      <td>10</td>
-      <td>6, 4, 0, 1, 0, 9, 8, 4, 6, 10</td>
-      <td>4.80</td>
-      <td>13.29</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>52</td>
-      <td>10</td>
-      <td>11, 4, 3, 1, 0, 2, 8, 6, 5, 3</td>
-      <td>4.30</td>
-      <td>11.12</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>58</td>
-      <td>12</td>
-      <td>12, 11, 3, 4, 2, 0, 0, 1, 4, 3, 2, 4</td>
-      <td>3.83</td>
-      <td>14.88</td>
     </tr>
     <tr>
       <td>7</td>
       <td>42</td>
       <td>8</td>
       <td>3, 7, 6, 7, 8, 4, 3, 2</td>
-      <td>5.00</td>
-      <td>5.14</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>66</td>
-      <td>13</td>
-      <td>3, 6, 4, 3, 2, 2, 8, 4, 0, 4, 5, 6, 3</td>
-      <td>3.85</td>
-      <td>4.31</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>40</td>
-      <td>8</td>
-      <td>6, 4, 7, 3, 9, 1, 4, 5</td>
-      <td>4.88</td>
-      <td>6.13</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>56</td>
-      <td>11</td>
-      <td>6, 7, 5, 10, 11, 2, 1, 4, 0, 5, 4</td>
-      <td>5.00</td>
-      <td>11.80</td>
     </tr>
   </tbody>
 </table>
-</body>
 ```
 
-## 📘 Dimensionamento da amostra {style="font-size: 0.75em;"}
+## 📘 *M* desconhecido  {style="font-size: 0.75em;"}
 
-## 📘 Exercício {style="font-size: 0.75em;"}
+<br>
+
+:::{.justificado}
+**Exemplo 2**: Uma Secretaria de Saúde Pública realizou um estudo para estimar o consumo diário de água por habitante (em litros) em um município composto por $N = 100$ bairros (conglomerados). O número total de habitantes do município ($M$) é desconhecido.Foi adotada uma Amostragem por Conglomerados em Dois Estágios (AC2): no 1º estágio sorteou-se uma AAS de $n = 4$ bairros, e no 2º estágio sorteou-se uma de $m_i$ moradores em cada bairro selecionado. Os dados resumidos da pesquisa encontram-se na Tabela 2 
+
+a) Estime o consumo médio diário de água por habitante.
+
+b) Obtenha o intervalo de 95% de confiança aproximado para a média populacional de consumo de água.
+:::
+
+---
+
+```{=html}
+<table style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
+  <caption><strong>Tabela 2:</strong> Consumo de água</caption>
+  <thead>
+    <tr>
+      <th>Bairro </th>
+      <th>Habitantes no bairro </th>
+      <th>Moradores amostrados </th>
+      <th>Média amostral (L/dia)</th>
+      <th>Variância amostral </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>500</td>
+      <td>25</td>
+      <td>2,20</td>
+      <td>0,16</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>800</td>
+      <td>40</td>
+      <td>1,80</td>
+      <td>0,25</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>600</td>
+      <td>30</td>
+      <td>2,50</td>
+      <td>0,20</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>500</td>
+      <td>25</td>
+      <td>2,00</td>
+      <td>0,16</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+## 📘 Exercícios {style="font-size: 0.75em;"}
+
+<br>
+
+:::{.justificado}
+**Exercício 1**: Uma Secretaria de Educação deseja estimar a nota média de matemática ($\bar{Y}$) dos alunos do 9º ano de um município. O município possui $N = 50$ escolas e sabe-se por registros cadastrais que o número total de alunos matriculados nessa série é $M = 2000$. Adotou-se uma Amostragem por Conglomerado em Dois Estágios (AC2):
+
+- 1º Estágio: Selecionou-se uma amostra de $n = 4$ escolas.
+
+- 2º Estágio: Em cada escola $i$, selecionou-se uma amostra de $m_i = 5$ alunos para realizar um teste padronizado. 
+
+Os resultados obtidos foram:
+:::
+
+---
+
+```{=html}
+<table style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
+  <thead>
+    <tr>
+      <th>Escola </th>
+      <th>Alunos na escola </th>
+      <th>Alunos amostrados </th>
+      <th>Média da escola </th>
+      <th>Variância amostral </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>40</td>
+      <td>5</td>
+      <td>7,0</td>
+      <td>1,0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>50</td>
+      <td>5</td>
+      <td>6,0</td>
+      <td>1,5</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>30</td>
+      <td>5</td>
+      <td>8,0</td>
+      <td>0,8</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>40</td>
+      <td>5</td>
+      <td>7,5</td>
+      <td>1,2</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+<br>
+
+a) Calcule a estimativa pontual da nota média populacional.
+
+b) Calcule o intervalo de 95% de confiança para a média populacional.
+
+---
+
+:::{.justificado}
+**Exercício 2**: Uma rede de supermercados possui $N = 60$ lojas na região metropolitana, mas o número total de itens vendidos em um determinado dia ($M$) é desconhecido. Deseja-se estimar o valor médio de venda por item (em R$). Realizou-se uma AC2:
+
+- Sorteou-se uma amostra de $n = 4$ lojas.
+
+- Em cada loja $i$, sorteou-se uma amostra de $m_i$ itens registrados nos caixas.
+:::
+
+Os dados obtidos foram:
+
+---
+
+```{=html}
+<table style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
+  <thead>
+    <tr>
+      <th>Loja </th>
+      <th>Itens vendidos na loja</th>
+      <th>Itens amostrados </th>
+      <th>Valor médio (em R$)</th>
+      <th>Variância amostral </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>400</td>
+      <td>20</td>
+      <td>53,00</td>
+      <td>100,00</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>600</td>
+      <td>30</td>
+      <td>45,00</td>
+      <td>144,00</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>400</td>
+      <td>20</td>
+      <td>47,00</td>
+      <td>80,00</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+<br>
+
+a) Obtenha a estimativa de razão para a média populacion.
+
+b) Calcule o intervalo de 95% de confiança para a média populacional.
 
 ---
 

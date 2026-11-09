@@ -6,14 +6,14 @@
 <script src="AM2_aula05_conglomerado2_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="AM2_aula05_conglomerado2_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="AM2_aula05_conglomerado2_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="AM2_aula05_conglomerado2_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.10.18">
+<link href="AM2_aula05_conglomerado2_files/libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.11.9">
 
   <meta name="author" content="Elizabeth Mie Hashimoto">
   <title>AM2</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="AM2_aula05_conglomerado2_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="AM2_aula05_conglomerado2_files/libs/revealjs/dist/reveal.css">
   <style>
@@ -35,7 +35,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="AM2_aula05_conglomerado2_files/libs/revealjs/dist/theme/quarto-bebd4849fa90660807a438afcfb261a4.css">
+  <link rel="stylesheet" href="AM2_aula05_conglomerado2_files/libs/revealjs/dist/theme/quarto-a0dcf2612944dabdc7594c57be9f731b.css">
   <link rel="stylesheet" href="custom.css">
   <link href="AM2_aula05_conglomerado2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="AM2_aula05_conglomerado2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -202,15 +202,17 @@ Elizabeth Mie Hashimoto
 <iframe data-src="conglomerado_2e.html" width="100%" height="600px" style="border:none;">
 </iframe>
 </section>
-<section id="dois-estágios" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 Dois estágios</h2>
+<section id="m-conhecido" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 <em>M</em> conhecido</h2>
+<p><br></p>
 <div class="justificado">
-<p><strong>Exemplo 1</strong>: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar <span class="math inline">\(n = 10\)</span> fábricas e aproximadamente <span class="math inline">\(20\%\)</span> das máquinas de cada fábrica. Utilizando os dados da Tabela 9.1, estime o tempo médio de inatividade por máquina.</p>
+<p><strong>Exemplo 1</strong>: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar <span class="math inline">\(n = 10\)</span> fábricas e aproximadamente <span class="math inline">\(20\%\)</span> das máquinas de cada fábrica. Os dados coletados são apresentados na Tabela 1.</p>
+<p>Sabendo que o total de máquinas em todas as fábricas é igual a 4500, estime o tempo médio de inatividade e o intervalo de 95% de confiança.</p>
 </div>
 </section>
 <section class="slide level2">
 
-<table class="caption-top">
+<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
 <caption><strong>Tabela 1:</strong> Tempo de inatividade das máquinas de costura</caption>
 <thead>
 <tr class="header">
@@ -218,8 +220,6 @@ Elizabeth Mie Hashimoto
 <th data-quarto-table-cell-role="th">M<sub>i</sub></th>
 <th data-quarto-table-cell-role="th">m<sub>i</sub></th>
 <th data-quarto-table-cell-role="th">Tempo de inatividade (horas)</th>
-<th data-quarto-table-cell-role="th">ȳ<sub>i</sub></th>
-<th data-quarto-table-cell-role="th">s<sub>i</sub><sup>2</sup></th>
 </tr>
 </thead>
 <tbody>
@@ -228,91 +228,191 @@ Elizabeth Mie Hashimoto
 <td>50</td>
 <td>10</td>
 <td>5, 7, 9, 0, 11, 2, 8, 4, 3, 5</td>
-<td>5.40</td>
-<td>11.38</td>
 </tr>
 <tr class="even">
-<td>2</td>
-<td>65</td>
-<td>13</td>
-<td>4, 3, 7, 2, 11, 0, 1, 9, 4, 3, 2, 1, 5</td>
-<td>4.00</td>
-<td>10.67</td>
-</tr>
-<tr class="odd">
 <td>3</td>
 <td>45</td>
 <td>9</td>
 <td>5, 6, 4, 11, 12, 0, 1, 8, 4</td>
-<td>5.67</td>
-<td>16.75</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>48</td>
-<td>10</td>
-<td>6, 4, 0, 1, 0, 9, 8, 4, 6, 10</td>
-<td>4.80</td>
-<td>13.29</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>52</td>
-<td>10</td>
-<td>11, 4, 3, 1, 0, 2, 8, 6, 5, 3</td>
-<td>4.30</td>
-<td>11.12</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>58</td>
-<td>12</td>
-<td>12, 11, 3, 4, 2, 0, 0, 1, 4, 3, 2, 4</td>
-<td>3.83</td>
-<td>14.88</td>
 </tr>
 <tr class="odd">
 <td>7</td>
 <td>42</td>
 <td>8</td>
 <td>3, 7, 6, 7, 8, 4, 3, 2</td>
-<td>5.00</td>
-<td>5.14</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>66</td>
-<td>13</td>
-<td>3, 6, 4, 3, 2, 2, 8, 4, 0, 4, 5, 6, 3</td>
-<td>3.85</td>
-<td>4.31</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>40</td>
-<td>8</td>
-<td>6, 4, 7, 3, 9, 1, 4, 5</td>
-<td>4.88</td>
-<td>6.13</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>56</td>
-<td>11</td>
-<td>6, 7, 5, 10, 11, 2, 1, 4, 0, 5, 4</td>
-<td>5.00</td>
-<td>11.80</td>
 </tr>
 </tbody>
 </table>
-
-
 </section>
-<section id="dimensionamento-da-amostra" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 Dimensionamento da amostra</h2>
+<section id="m-desconhecido" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 <em>M</em> desconhecido</h2>
+<p><br></p>
+<div class="justificado">
+<p><strong>Exemplo 2</strong>: Uma Secretaria de Saúde Pública realizou um estudo para estimar o consumo diário de água por habitante (em litros) em um município composto por <span class="math inline">\(N = 100\)</span> bairros (conglomerados). O número total de habitantes do município (<span class="math inline">\(M\)</span>) é desconhecido.Foi adotada uma Amostragem por Conglomerados em Dois Estágios (AC2): no 1º estágio sorteou-se uma AAS de <span class="math inline">\(n = 4\)</span> bairros, e no 2º estágio sorteou-se uma de <span class="math inline">\(m_i\)</span> moradores em cada bairro selecionado. Os dados resumidos da pesquisa encontram-se na Tabela 2</p>
+<ol type="a">
+<li><p>Estime o consumo médio diário de água por habitante.</p></li>
+<li><p>Obtenha o intervalo de 95% de confiança aproximado para a média populacional de consumo de água.</p></li>
+</ol>
+</div>
 </section>
-<section id="exercício" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 Exercício</h2>
+<section class="slide level2">
+
+<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
+<caption><strong>Tabela 2:</strong> Consumo de água</caption>
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Bairro</th>
+<th data-quarto-table-cell-role="th">Habitantes no bairro</th>
+<th data-quarto-table-cell-role="th">Moradores amostrados</th>
+<th data-quarto-table-cell-role="th">Média amostral (L/dia)</th>
+<th data-quarto-table-cell-role="th">Variância amostral</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>500</td>
+<td>25</td>
+<td>2,20</td>
+<td>0,16</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>800</td>
+<td>40</td>
+<td>1,80</td>
+<td>0,25</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>600</td>
+<td>30</td>
+<td>2,50</td>
+<td>0,20</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>500</td>
+<td>25</td>
+<td>2,00</td>
+<td>0,16</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="exercícios" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Exercícios</h2>
+<p><br></p>
+<div class="justificado">
+<p><strong>Exercício 1</strong>: Uma Secretaria de Educação deseja estimar a nota média de matemática (<span class="math inline">\(\bar{Y}\)</span>) dos alunos do 9º ano de um município. O município possui <span class="math inline">\(N = 50\)</span> escolas e sabe-se por registros cadastrais que o número total de alunos matriculados nessa série é <span class="math inline">\(M = 2000\)</span>. Adotou-se uma Amostragem por Conglomerado em Dois Estágios (AC2):</p>
+<ul>
+<li><p>1º Estágio: Selecionou-se uma amostra de <span class="math inline">\(n = 4\)</span> escolas.</p></li>
+<li><p>2º Estágio: Em cada escola <span class="math inline">\(i\)</span>, selecionou-se uma amostra de <span class="math inline">\(m_i = 5\)</span> alunos para realizar um teste padronizado.</p></li>
+</ul>
+<p>Os resultados obtidos foram:</p>
+</div>
+</section>
+<section class="slide level2">
+
+<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Escola</th>
+<th data-quarto-table-cell-role="th">Alunos na escola</th>
+<th data-quarto-table-cell-role="th">Alunos amostrados</th>
+<th data-quarto-table-cell-role="th">Média da escola</th>
+<th data-quarto-table-cell-role="th">Variância amostral</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>40</td>
+<td>5</td>
+<td>7,0</td>
+<td>1,0</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>50</td>
+<td>5</td>
+<td>6,0</td>
+<td>1,5</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>30</td>
+<td>5</td>
+<td>8,0</td>
+<td>0,8</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>40</td>
+<td>5</td>
+<td>7,5</td>
+<td>1,2</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ol type="a">
+<li><p>Calcule a estimativa pontual da nota média populacional.</p></li>
+<li><p>Calcule o intervalo de 95% de confiança para a média populacional.</p></li>
+</ol>
+</section>
+<section class="slide level2">
+
+<div class="justificado">
+<p><strong>Exercício 2</strong>: Uma rede de supermercados possui <span class="math inline">\(N = 60\)</span> lojas na região metropolitana, mas o número total de itens vendidos em um determinado dia (<span class="math inline">\(M\)</span>) é desconhecido. Deseja-se estimar o valor médio de venda por item (em R$). Realizou-se uma AC2:</p>
+<ul>
+<li><p>Sorteou-se uma amostra de <span class="math inline">\(n = 4\)</span> lojas.</p></li>
+<li><p>Em cada loja <span class="math inline">\(i\)</span>, sorteou-se uma amostra de <span class="math inline">\(m_i\)</span> itens registrados nos caixas.</p></li>
+</ul>
+</div>
+<p>Os dados obtidos foram:</p>
+</section>
+<section class="slide level2">
+
+<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Loja</th>
+<th data-quarto-table-cell-role="th">Itens vendidos na loja</th>
+<th data-quarto-table-cell-role="th">Itens amostrados</th>
+<th data-quarto-table-cell-role="th">Valor médio (em R$)</th>
+<th data-quarto-table-cell-role="th">Variância amostral</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>400</td>
+<td>20</td>
+<td>53,00</td>
+<td>100,00</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>600</td>
+<td>30</td>
+<td>45,00</td>
+<td>144,00</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>400</td>
+<td>20</td>
+<td>47,00</td>
+<td>80,00</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ol type="a">
+<li><p>Obtenha a estimativa de razão para a média populacion.</p></li>
+<li><p>Calcule o intervalo de 95% de confiança para a média populacional.</p></li>
+</ol>
 </section>
 <section class="slide level2">
 
@@ -358,7 +458,7 @@ Elizabeth Mie Hashimoto
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'jumpToSlide': true,
-'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"\u003ci class=\"fas fa-gear\">\u003c/i>","content":"\u003cul class=\"slide-menu-items\">\n\u003cli class=\"slide-tool-item active\" data-item=\"0\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\">\u003ckbd>f\u003c/kbd> Fullscreen\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"1\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\">\u003ckbd>s\u003c/kbd> Speaker View\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"2\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\">\u003ckbd>o\u003c/kbd> Slide Overview\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"3\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\">\u003ckbd>e\u003c/kbd> PDF Export Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"4\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\">\u003ckbd>r\u003c/kbd> Scroll View Mode\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"5\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\">\u003ckbd>b\u003c/kbd> Toggle Chalkboard\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"6\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\">\u003ckbd>c\u003c/kbd> Toggle Notes Canvas\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"7\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\">\u003ckbd>d\u003c/kbd> Download Drawings\u003c/a>\u003c/li>\n\u003cli class=\"slide-tool-item\" data-item=\"8\">\u003ca href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\">\u003ckbd>?\u003c/kbd> Keyboard Help\u003c/a>\u003c/li>\n\u003c/ul>"}],"openButton":true,"openButtonLabel":"Slide menu"},
 'chalkboard': {"buttons":true},
 'smaller': false,
  
@@ -614,7 +714,8 @@ Elizabeth Mie Hashimoto
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
           // Inspect non-navigation links and adorn them if external
-         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          window.quartoDecorateExternalLinks = function (root) {
+         var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
           for (var i=0; i<links.length; i++) {
             const link = links[i];
             if (!isInternal(link.href)) {
@@ -623,8 +724,69 @@ Elizabeth Mie Hashimoto
               if (link.dataset.originalHref !== undefined) {
                 link.href = link.dataset.originalHref;
               }
+              if (!link.classList.contains('no-external-icon')) {
+              }
             }
           }
+          };
+          window.quartoDecorateExternalLinks(window.document);
+        // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+        // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+        const hideOnEscAndFocusOut = {
+          name: 'hideOnEscAndFocusOut',
+          defaultValue: true,
+          fn(instance) {
+            const dismiss = () => {
+              // A show scheduled by the trigger delay would otherwise reopen it
+              instance.clearDelayTimeouts();
+              instance.hide();
+            };
+            const onKeyDown = (event) => {
+              if (event.key !== 'Escape') {
+                return;
+              }
+              // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+              // except an open reveal.js slide menu, which Esc should close too.
+              // The menu handles keys only when its keyboard option is on.
+              const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+                window.Reveal.getConfig().menu?.keyboard !== false;
+              if (!menuHandlesEsc) {
+                event.stopPropagation();
+              }
+              if (instance.popper.contains(window.document.activeElement)) {
+                // Disabled while refocusing so the focus trigger does not reopen it
+                instance.disable();
+                instance.reference.focus();
+                instance.enable();
+              }
+              dismiss();
+            };
+            const onFocusOut = (event) => {
+              const target = event.relatedTarget;
+              if (target && !instance.reference.contains(target) &&
+                  !instance.popper.contains(target)) {
+                dismiss();
+              }
+            };
+            // On the trigger too: a click trigger (code-annotations: select) has no
+            // blur handling. Attached for the instance's lifetime so leaving the
+            // trigger also cancels a show still pending on the trigger delay.
+            instance.reference.addEventListener('focusout', onFocusOut);
+            return {
+              onShow() {
+                window.document.addEventListener('keydown', onKeyDown, true);
+                instance.popper.addEventListener('focusout', onFocusOut);
+              },
+              onHide() {
+                window.document.removeEventListener('keydown', onKeyDown, true);
+                instance.popper.removeEventListener('focusout', onFocusOut);
+              },
+              onDestroy() {
+                instance.reference.removeEventListener('focusout', onFocusOut);
+              },
+            };
+          },
+        };
         function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
           const config = {
             allowHTML: true,
@@ -638,6 +800,7 @@ Elizabeth Mie Hashimoto
             interactiveBorder: 10,
             theme: 'light-border',
             placement: 'bottom-start',
+            plugins: [hideOnEscAndFocusOut],
           };
           if (contentFn) {
             config.content = contentFn;
