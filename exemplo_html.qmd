@@ -1,0 +1,273 @@
+---
+title: "Untitled"
+format: html
+---
+
+
+```{=html}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amostragem em Quadrinhos!</title>
+    <style>
+        /* Estilo Desenho Animado / Comic Book */
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Fredoka One', cursive, sans-serif;
+            line-height: 1.6;
+            color: #222;
+            background-color: #85c1e9;
+            background-image: radial-gradient(#fff 15%, transparent 16%), radial-gradient(#fff 15%, transparent 16%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            border: 5px solid #222;
+            box-shadow: 10px 10px 0px #222;
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        /* Tipografia Divertida */
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #ff5722;
+            text-shadow: 2px 2px 0px #222;
+            letter-spacing: 2px;
+            animation: wiggle 3s infinite;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            background: #fff9c4;
+            padding: 15px;
+            border-radius: 10px;
+            border: 3px dashed #222;
+        }
+
+        h2 {
+            color: #222;
+            background: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 3px solid #222;
+            display: inline-block;
+            box-shadow: 4px 4px 0px #222;
+            transform: rotate(-2deg);
+        }
+
+        /* Estágios Ilustrados */
+        .stages-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stage-card {
+            flex: 1;
+            min-width: 250px;
+            background: #bbdefb;
+            padding: 25px;
+            border-radius: 15px;
+            border: 4px solid #222;
+            box-shadow: 6px 6px 0px #222;
+            text-align: center;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stage-card.second {
+            background: #ffcc80;
+            animation-delay: 1.5s;
+        }
+
+        .drawing {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        /* Grid de Motivações Animadas */
+        .motivations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .motivation-item {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #222;
+            box-shadow: 5px 5px 0px #222;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 0.5s forwards;
+        }
+
+        /* Efeitos de Hover nas caixas */
+        .motivation-item:hover {
+            transform: scale(1.05) rotate(3deg);
+            background: #f8bbd0;
+            cursor: pointer;
+        }
+
+        .motivation-item strong {
+            display: block;
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #d81b60;
+        }
+
+        /* Caixas de Comparação */
+        .info-box {
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 40px;
+            border: 4px solid #222;
+            box-shadow: 8px 8px 0px #222;
+            position: relative;
+        }
+
+        .box-comparison { background: #e1bee7; transform: rotate(1deg); }
+        .box-example { background: #c8e6c9; transform: rotate(-1deg); }
+
+        .info-box h3 { margin-top: 0; }
+
+        .badge {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 3em;
+            animation: spin 6s linear infinite;
+        }
+
+        /* Animações Keyframes */
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-3deg); }
+            75% { transform: rotate(3deg); }
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Delays para as motivações aparecerem uma a uma */
+        .m1 { animation-delay: 0.5s; }
+        .m2 { animation-delay: 0.7s; }
+        .m3 { animation-delay: 0.9s; }
+        .m4 { animation-delay: 1.1s; }
+        .m5 { animation-delay: 1.3s; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📊 Conglomerados!</h1>
+        <div class="subtitle">
+            Tornando pesquisas gigantescas em missões super fáceis e baratas! 🚀
+        </div>
+
+        <h2>🕵️ Como funciona a seleção?</h2>
+        <div class="stages-container">
+            <div class="stage-card">
+                <span class="drawing">🏫</span>
+                <h3>1º Estágio: Os Grupões</h3>
+                <p>Sorteamos os <strong>conglomerados</strong>. São os grandes grupos naturais.</p>
+                <p><em>Ex: Municípios, Escolas ou Hospitais.</em></p>
+            </div>
+            <div class="stage-card second">
+                <span class="drawing">🧑‍🎓</span>
+                <h3>2º Estágio: Os Indivíduos</h3>
+                <p>Dentro de cada grupão sorteado, escolhemos os <strong>elementos</strong> finais.</p>
+                <p><em>Ex: Alunos, Pacientes ou Moradores.</em></p>
+            </div>
+        </div>
+
+        <h2>✨ Por que usar isso?</h2>
+        <div class="motivations-grid">
+            <div class="motivation-item m1">
+                <span class="drawing" style="font-size: 3em; animation: none;">💰</span>
+                <strong>Redução de Custos</strong>
+                Menos viagens, menos gastos. A pesquisa fica concentrada!
+            </div>
+            <div class="motivation-item m2">
+                <span class="drawing" style="font-size: 3em; animation: none;">⚙️</span>
+                <strong>Facilidade Operacional</strong>
+                Muito mais simples organizar a equipe de campo.
+            </div>
+            <div class="motivation-item m3">
+                <span class="drawing" style="font-size: 3em; animation: none;">🎯</span>
+                <strong>Flexibilidade</strong>
+                Não precisa entrevistar todo mundo do local, só uma parte!
+            </div>
+            <div class="motivation-item m4">
+                <span class="drawing" style="font-size: 3em; animation: none;">🌍</span>
+                <strong>Populações Extensas</strong>
+                Salva a pátria quando as pessoas estão espalhadas pelo mapa inteiro.
+            </div>
+            <div class="motivation-item m5">
+                <span class="drawing" style="font-size: 3em; animation: none;">⚖️</span>
+                <strong>Otimização</strong>
+                Equilibra matemática perfeita com o dinheiro no bolso!
+            </div>
+        </div>
+
+        <div class="info-box box-comparison">
+            <div class="badge">🤔</div>
+            <h3>1 Estágio vs 2 Estágios</h3>
+            <p>No <strong>1º estágio só</strong>, se a escola for sorteada, <em>todos</em> os 1000 alunos precisam responder. Exaustivo, né?</p>
+            <p>Nos <strong>2 estágios</strong>, a gente sorteia a escola e depois sorteia só uns <em>50 alunos</em> lá dentro. Magia pura da economia! ✨</p>
+        </div>
+
+        <div class="info-box box-example">
+            <div class="badge">⭐</div>
+            <h3>Exemplo Prático Rápido!</h3>
+            <ul>
+                <li><strong>Passo 1:</strong> Sorteia 10 escolas no estado de São Paulo. 🎲</li>
+                <li><strong>Passo 2:</strong> Sorteia 20 alunos de cada uma dessas 10 escolas. 🎒</li>
+            </ul>
+            <p><strong>Resultado:</strong> Você descobre a qualidade da educação do estado inteiro entrevistando apenas 200 alunos, sem precisar viajar para todas as cidades!</p>
+        </div>
+    </div>
+
+</body>
+</html>
+```

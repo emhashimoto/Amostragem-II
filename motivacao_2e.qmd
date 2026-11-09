@@ -1,0 +1,280 @@
+---
+title: ""
+format: html
+---
+
+
+```{=html}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obstáculos do Conglomerado com Um Estágio</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 800px;
+            max-width: 100%;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #34495e;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        /* Container de Transição */
+        .slides-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .slide.exiting {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        h2 {
+            font-size: 40px;
+            color: var(--primary-color);
+        }
+
+        p {
+            font-size: 23px;
+            line-height: 1.6;
+            color: #555;
+            padding: 0 20px;
+        }
+
+        /* Animações Obstáculo 1 */
+        .anim-container-1 {
+            position: relative;
+            width: 270px;
+            height: 200px;
+            margin: 10px auto;
+            border: 2px dashed #95a5a6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f2f6;
+        }
+
+        .dots {
+            font-size: 70px;
+            color: #7f8c8d;
+        }
+
+        .cross {
+            position: absolute;
+            font-size: 190px;
+            color: var(--accent-color);
+            font-weight: bold;
+            opacity: 0;
+            transform: scale(3);
+        }
+
+        .slide.active .cross {
+            animation: stamp 0.6s ease-in-out 0.5s forwards;
+        }
+
+        @keyframes stamp {
+            0% { opacity: 0; transform: scale(3); }
+            50% { opacity: 1; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Animações Obstáculo 2 */
+        .anim-container-2 {
+            position: relative;
+            width: 390px;
+            height: 170px;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .house {
+            font-size: 80px;
+            color: #3498db;
+            position: relative;
+        }
+
+        .magnifier {
+            position: absolute;
+            font-size: 60px;
+            top: 20px;
+            left: 20px;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .slide.active .magnifier {
+            animation: scan 3s ease-in-out 0.5s infinite alternate;
+        }
+
+        .redundancy-line {
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+            top: 50%;
+            left: 0;
+            opacity: 0;
+        }
+
+        .slide.active .redundancy-line {
+            animation: fadeInOut 3s ease-in-out 0.5s infinite alternate;
+        }
+
+        @keyframes scan {
+            0% { opacity: 1; transform: translateX(0) scale(1); }
+            50% { opacity: 1; transform: translateX(100px) scale(1.2); }
+            100% { opacity: 1; transform: translateX(200px) scale(1); }
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* Botões */
+        .controls {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="slides-wrapper">
+            
+            <!-- Obstáculo 1 -->
+            <div id="slide1" class="slide active">
+                <h2>Conglomerados grandes</h2>
+                
+                <div class="anim-container-1">
+                    <div class="dots">🏢🏘️🏡</div>
+                    <div class="cross">✗</div>
+                </div>
+                
+                <p>Custoso medir milhares de unidades dentro de um único conglomerado.</p>
+                
+                <div class="controls">
+                    <button onclick="nextSlide(1, 2)"> Próximo </button>
+                </div>
+            </div>
+
+            <!-- Obstáculo 2 -->
+            <div id="slide2" class="slide">
+                <h2>Homogeneidade Interna</h2>
+                
+                <div class="anim-container-2">
+                    <div class="redundancy-line"></div>
+                    <div class="house">🏠</div>
+                    <div class="house">🏠</div>
+                    <div class="house">🏠</div>
+                    <div class="magnifier">🔍</div>
+                </div>
+                
+                <p>Elementos fisicamente próximos tendem a ser semelhantes.</p>
+                
+                <div class="controls">
+                    <button onclick="nextSlide(2, 1)">⬅ Voltar ao Início</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function nextSlide(currentId, nextId) {
+            const currentSlide = document.getElementById('slide' + currentId);
+            const nextSlide = document.getElementById('slide' + nextId);
+
+            // Adiciona classe para animar a saída do slide atual
+            currentSlide.classList.remove('active');
+            currentSlide.classList.add('exiting');
+
+            // Aguarda um curto período para iniciar a entrada do próximo
+            setTimeout(() => {
+                currentSlide.classList.remove('exiting'); // Reseta o estado
+                
+                // Ativa o próximo slide (acionando também as animações CSS internas dele)
+                nextSlide.classList.add('active');
+            }, 300); // 300ms de delay para cruzar as animações suavemente
+        }
+    </script>
+</body>
+</html>
+```

@@ -1,0 +1,345 @@
+---
+title: ""
+format: html
+---
+
+
+```{=html}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amostragem por Conglomerados em 2 Estágios</title>
+    <style>
+        :root {
+            --cor-populacao: #e2e6eb;
+            --cor-populacao-borda: #6b778d;
+            --cor-primaria-fundo: #cceef3;
+            --cor-primaria-borda: #60b3c2;
+            --cor-destaque-fundo: #bde9ef;
+            --cor-destaque-borda: #1a7c8f;
+            --cor-secundaria: #edcd52; 
+            --cor-elemento-base: #7e91a8; 
+            --cor-texto: #2b3a4a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Força centralização horizontal */
+            align-items: center; /* Força centralização vertical */
+            min-height: 100vh;
+            width: 100vw;
+            color: var(--cor-texto);
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px; /* Largura reduzida para centralizar melhor */
+            height: 90vh;
+            margin: 0 auto; /* Garante que fique no centro horizontalmente */
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ÁREA DO GRÁFICO */
+        .grafico-area {
+            width: 100%;
+            flex: 1; 
+            position: relative;
+            display: flex;
+            justify-content: center; /* Centraliza o quadrado horizontalmente */
+            align-items: center; /* Centraliza o quadrado verticalmente */
+        }
+
+        .populacao {
+            position: relative;
+            width: 100%; 
+            max-width: 750px; 
+            margin: 0 auto; /* Trava o quadrado no centro */
+            aspect-ratio: 3 / 2; /* Mantém a proporção do grid de 6x4 */
+            background-color: var(--cor-populacao);
+            border: 8px solid var(--cor-populacao-borda);
+            border-radius: 12px;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.6s ease;
+            box-sizing: border-box;
+        }
+
+        /* GRID MAIOR: 6 colunas x 4 linhas = 24 Conglomerados */
+        .divisoes-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 6px;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .unidade-primaria-bloco {
+            background-color: var(--cor-primaria-fundo);
+            border: 2px solid var(--cor-primaria-borda);
+            border-radius: 6px;
+            position: relative;
+            transition: all 0.6s ease;
+            overflow: hidden;
+        }
+
+        /* ÁREA DE TEXTOS */
+        .textos-area {
+            width: 100%;
+            height: 140px; 
+            position: relative;
+            display: flex;
+            justify-content: center; /* Garante que os cards nasçam no centro */
+        }
+
+        .card-texto {
+            position: absolute;
+            top: 0;
+            /* Centralização absoluta do card */
+            left: 50%;
+            transform: translate(-50%, 30px);
+            width: 100%;
+            max-width: 750px; /* Mesma largura do mapa */
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-top: 6px solid #ccc;
+            opacity: 0;
+            visibility: hidden; 
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .card-texto h3 {
+            margin: 0 0 12px 0;
+            font-size: 20px;
+        }
+
+        .card-texto p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        /* PONTOS (Elementos dos Conglomerados) */
+        .ponto-elemento {
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: var(--cor-elemento-base);
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Posições relativas genéricas */
+        .d1 { top: 15%; left: 20%; transition-delay: 0.1s; }
+        .d2 { top: 25%; left: 70%; transition-delay: 0.2s; }
+        .d3 { top: 60%; left: 25%; transition-delay: 0.3s; }
+        .d4 { top: 70%; left: 75%; transition-delay: 0.4s; }
+        .d5 { top: 45%; left: 50%; transition-delay: 0.5s; }
+        .d6 { top: 80%; left: 45%; transition-delay: 0.6s; }
+        .d7 { top: 20%; left: 45%; transition-delay: 0.7s; }
+
+        /* =========================================================
+           CONTROLE DE ETAPAS VIA CSS
+           ========================================================= */
+        
+        [data-step="1"] .populacao, [data-step="2"] .populacao, 
+        [data-step="3"] .populacao, [data-step="4"] .populacao, 
+        [data-step="5"] .populacao {
+            opacity: 1; transform: scale(1);
+        }
+        [data-step="1"] #card-populacao {
+            opacity: 1; visibility: visible; transform: translate(-50%, 0); border-top-color: var(--cor-populacao-borda);
+        }
+
+        [data-step="2"] .divisoes-grid, [data-step="3"] .divisoes-grid, 
+        [data-step="4"] .divisoes-grid, [data-step="5"] .divisoes-grid {
+            opacity: 1;
+        }
+        [data-step="2"] #card-conglomerados {
+            opacity: 1; visibility: visible; transform: translate(-50%, 0); border-top-color: var(--cor-primaria-borda);
+        }
+
+        [data-step="3"] .conglomerado-selecionado, 
+        [data-step="4"] .conglomerado-selecionado, 
+        [data-step="5"] .conglomerado-selecionado {
+            background-color: var(--cor-destaque-fundo);
+            border: 4px solid var(--cor-destaque-borda);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+            transform: scale(1.03);
+            z-index: 10;
+        }
+        [data-step="3"] #card-selecao-cong {
+            opacity: 1; visibility: visible; transform: translate(-50%, 0); border-top-color: var(--cor-destaque-borda);
+        }
+
+        [data-step="4"] .ponto-elemento, 
+        [data-step="5"] .ponto-elemento {
+            opacity: 1; transform: scale(1);
+        }
+        [data-step="4"] #card-elementos {
+            opacity: 1; visibility: visible; transform: translate(-50%, 0); border-top-color: var(--cor-elemento-base);
+        }
+
+        [data-step="5"] .ponto-alvo {
+            background-color: var(--cor-secundaria);
+            transform: scale(1.4);
+            box-shadow: 0 0 10px rgba(237, 205, 82, 0.9);
+            z-index: 20;
+        }
+        [data-step="5"] #card-selecao-elem {
+            opacity: 1; visibility: visible; transform: translate(-50%, 0); border-top-color: var(--cor-secundaria);
+        }
+
+        @media (max-width: 768px) {
+            .container { height: 95vh; }
+            .card-texto { padding: 15px; }
+            .card-texto h3 { font-size: 18px; }
+            .card-texto p { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="app" data-step="0">
+    
+    <!-- LADO SUPERIOR: Mapa -->
+    <div class="grafico-area">
+        <div class="populacao">
+            <div class="divisoes-grid">
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                
+                <div class="unidade-primaria-bloco conglomerado-selecionado">
+                    <div class="ponto-elemento d1 ponto-alvo"></div>
+                    <div class="ponto-elemento d2"></div>
+                    <div class="ponto-elemento d4 ponto-alvo"></div>
+                    <div class="ponto-elemento d5"></div>
+                </div>
+                
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                
+                <div class="unidade-primaria-bloco conglomerado-selecionado">
+                    <div class="ponto-elemento d1"></div>
+                    <div class="ponto-elemento d2 ponto-alvo"></div>
+                    <div class="ponto-elemento d3"></div>
+                    <div class="ponto-elemento d4"></div>
+                    <div class="ponto-elemento d5 ponto-alvo"></div>
+                    <div class="ponto-elemento d6 ponto-alvo"></div>
+                </div>
+                
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                
+                <div class="unidade-primaria-bloco conglomerado-selecionado">
+                    <div class="ponto-elemento d1 ponto-alvo"></div>
+                    <div class="ponto-elemento d3 ponto-alvo"></div>
+                    <div class="ponto-elemento d5"></div>
+                    <div class="ponto-elemento d7"></div>
+                </div>
+                
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                
+                <div class="unidade-primaria-bloco conglomerado-selecionado">
+                    <div class="ponto-elemento d1"></div>
+                    <div class="ponto-elemento d2 ponto-alvo"></div>
+                    <div class="ponto-elemento d4"></div>
+                    <div class="ponto-elemento d5 ponto-alvo"></div>
+                    <div class="ponto-elemento d7"></div>
+                </div>
+                
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                
+                <div class="unidade-primaria-bloco conglomerado-selecionado">
+                    <div class="ponto-elemento d2"></div>
+                    <div class="ponto-elemento d3 ponto-alvo"></div>
+                    <div class="ponto-elemento d4"></div>
+                    <div class="ponto-elemento d5 ponto-alvo"></div>
+                    <div class="ponto-elemento d6 ponto-alvo"></div>
+                </div>
+                
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+                <div class="unidade-primaria-bloco"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LADO INFERIOR: Textos -->
+    <div class="textos-area">
+        <div class="card-texto" id="card-populacao">
+            <h3>1. População Alvo</h3>
+            <p>Representa a totalidade de interesse do estudo. Agora em visão ampliada, ocupando todo o cenário.</p>
+        </div>
+
+        <div class="card-texto" id="card-conglomerados">
+            <h3>2. Mapeamento de Conglomerados (1º Estágio)</h3>
+            <p>A área foi dividida em um grid bem maior com <b>24 conglomerados</b> (quarteirões, setores censitários, turmas).</p>
+        </div>
+
+        <div class="card-texto" id="card-selecao-cong">
+            <h3>3. Seleção de Conglomerados</h3>
+            <p>Neste cenário, efetuamos o sorteio e destacamos <b>5 conglomerados diferentes</b> para dar prosseguimento ao estudo.</p>
+        </div>
+
+        <div class="card-texto" id="card-elementos">
+            <h3>4. Identificação dos Elementos</h3>
+            <p>As equipes focam <b>apenas</b> nos 5 conglomerados sorteados, mapeando os elementos (indivíduos/casas) presentes neles.</p>
+        </div>
+        
+        <div class="card-texto" id="card-selecao-elem">
+            <h3>5. Seleção Final da Amostra (2º Estágio)</h3>
+            <p>Dentro dos conglomerados sorteados, selecionamos aleatoriamente apenas <b>alguns elementos</b> (pontos amarelos) para a amostra final.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let etapaAtual = 0;
+    const totalEtapas = 5;
+
+    function proximaEtapa() {
+        if (etapaAtual < totalEtapas) {
+            etapaAtual++;
+            document.getElementById('app').setAttribute('data-step', etapaAtual);
+            setTimeout(proximaEtapa, 4500);
+        }
+    }
+
+    window.onload = () => setTimeout(proximaEtapa, 500);
+</script>
+
+</body>
+</html>
+```

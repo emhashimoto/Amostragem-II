@@ -1,0 +1,373 @@
+---
+title: ""
+format: html
+---
+
+
+```{=html}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Amostragem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        #canvas-container { position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
+        canvas { 
+            width: 100%; 
+            height: auto; 
+            background: #ffffff; 
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-radius: 0.75rem;
+            display: block;
+        }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card.active { border-color: #ef4444; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2); }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col items-center p-4 sm:p-6">
+
+    <div class="max-w-5xl w-full">
+        <!-- Stats Panel -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+            <div class="stat-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
+                <span class="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Método Atual</span>
+                <span id="ui-method" class="text-lg font-bold text-slate-700">Nenhum</span>
+            </div>
+            <div class="stat-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
+                <span class="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Amostras Coletadas</span>
+                <span class="text-2xl font-bold text-indigo-600"><span id="ui-samples">0</span> / 40</span>
+            </div>
+            <div class="stat-card bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col items-center">
+                <span class="text-sm text-slate-500 font-medium uppercase tracking-wider mb-1">Distância (Custo)</span>
+                <span class="text-2xl font-bold text-red-600"><span id="ui-distance">0</span> km</span>
+            </div>
+        </div>
+
+        <!-- Canvas -->
+        <div id="canvas-container" class="mb-2">
+            <canvas id="mapCanvas" width="900" height="600"></canvas>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <button id="btn-simples" class="px-3 py-3 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Aleatória Simples
+            </button>
+            <button id="btn-conglomerado" class="px-3 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Conglomerados
+            </button>
+        </div>
+        
+        <!-- Legend -->
+        <div class="mt-8 flex justify-center items-center gap-6 text-sm text-slate-600">
+            <!-- A legenda da população não selecionada foi removida para manter a coerência visual -->
+            <div class="flex items-center gap-2">
+                <div class="w-4 h-4 rounded-full bg-yellow-500 border border-yellow-700"></div> Amostra Coletada
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-1 bg-red-500"></div> Trajeto do Pesquisador
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('mapCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // UI Elements
+        const uiMethod = document.getElementById('ui-method');
+        const uiSamples = document.getElementById('ui-samples');
+        const uiDistance = document.getElementById('ui-distance');
+        const btnSimples = document.getElementById('btn-simples');
+        const btnConglomerado = document.getElementById('btn-conglomerado');
+
+        // Configurações do Mapa (Grid e População)
+        const cols = 8;
+        const rows = 6;
+        const blockW = canvas.width / cols;
+        const blockH = canvas.height / rows;
+        const popPerBlock = 12; // População em cada bloco
+        const targetSamples = 40;
+        
+        let blocks = [];
+        let population = [];
+        
+        // Estado da Animação
+        let isAnimating = false;
+        let animationReq;
+        let path = [];
+        let currentPathIdx = 0;
+        let currentPos = {x: 0, y: 0};
+        let accumulatedDistance = 0;
+        let collectedSamples = 0;
+        let animSpeed = 12; // Pixels por frame de deslocamento
+        let pathPointsDrawn = []; // Para desenhar as linhas permanentemente
+
+        // Inicialização dos Dados
+        function initData() {
+            blocks = [];
+            population = [];
+            for (let c = 0; c < cols; c++) {
+                for (let r = 0; r < rows; r++) {
+                    const block = { id: `${c}-${r}`, col: c, row: r, points: [] };
+                    
+                    // Margem dentro do bloco para as ruas
+                    const marginX = blockW * 0.15;
+                    const marginY = blockH * 0.15;
+                    
+                    for (let i = 0; i < popPerBlock; i++) {
+                        const pt = {
+                            x: c * blockW + marginX + Math.random() * (blockW - marginX * 2),
+                            y: r * blockH + marginY + Math.random() * (blockH - marginY * 2),
+                            blockId: block.id,
+                            selected: false
+                        };
+                        block.points.push(pt);
+                        population.push(pt);
+                    }
+                    blocks.push(block);
+                }
+            }
+        }
+
+        // Desenhar Fundo Estático (Ruas e Mapa)
+        function drawBackground() {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Desenhar Ruas (Grid)
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 4;
+            
+            // Avenidas mais grossas a cada 2 blocos
+            for (let c = 0; c <= cols; c++) {
+                ctx.beginPath();
+                ctx.lineWidth = (c % 2 === 0) ? 8 : 4;
+                ctx.strokeStyle = (c % 2 === 0) ? '#cbd5e1' : '#f1f5f9';
+                ctx.moveTo(c * blockW, 0);
+                ctx.lineTo(c * blockW, canvas.height);
+                ctx.stroke();
+            }
+            
+            for (let r = 0; r <= rows; r++) {
+                ctx.beginPath();
+                ctx.lineWidth = (r % 2 === 0) ? 8 : 4;
+                ctx.strokeStyle = (r % 2 === 0) ? '#cbd5e1' : '#f1f5f9';
+                ctx.moveTo(0, r * blockH);
+                ctx.lineTo(canvas.width, r * blockH);
+                ctx.stroke();
+            }
+            
+            // O código que desenhava a população não selecionada foi removido daqui
+        }
+
+        // Desenhar Estado Atual (Linhas e Pontos Selecionados)
+        function drawState() {
+            drawBackground();
+
+            // Desenhar trajeto já percorrido
+            if (pathPointsDrawn.length > 0) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.4)'; // Red claro e transparente para rastros velhos
+                ctx.lineWidth = 2;
+                ctx.moveTo(pathPointsDrawn[0].x, pathPointsDrawn[0].y);
+                for (let i = 1; i < pathPointsDrawn.length; i++) {
+                    ctx.lineTo(pathPointsDrawn[i].x, pathPointsDrawn[i].y);
+                }
+                // Conectar ao ponto atual em animação
+                if (isAnimating) {
+                    ctx.lineTo(currentPos.x, currentPos.y);
+                }
+                ctx.stroke();
+            }
+
+            // Destacar Pontos Coletados
+            population.forEach(pt => {
+                if(pt.selected) {
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = '#eab308'; // Amarelo
+                    ctx.fill();
+                    ctx.strokeStyle = '#a16207';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                }
+            });
+
+            // Ponto de viagem do pesquisador
+            if (isAnimating) {
+                ctx.beginPath();
+                ctx.arc(currentPos.x, currentPos.y, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444'; // Red-500
+                ctx.fill();
+            }
+        }
+
+        // Helper: Algoritmo Guloso de Vendedor Viajante (Nearest Neighbor)
+        function nearestNeighborRoute(pointsArray, startPoint) {
+            let unvisited = [...pointsArray];
+            let route = [];
+            let current = startPoint ? startPoint : unvisited[0];
+            
+            if(startPoint) {
+                unvisited = unvisited.filter(p => p !== startPoint);
+            } else {
+                unvisited.shift();
+            }
+            route.push(current);
+
+            while (unvisited.length > 0) {
+                let nearest = null;
+                let minDist = Infinity;
+                
+                for (let pt of unvisited) {
+                    let d = Math.hypot(pt.x - current.x, pt.y - current.y);
+                    if (d < minDist) {
+                        minDist = d;
+                        nearest = pt;
+                    }
+                }
+                
+                route.push(nearest);
+                unvisited = unvisited.filter(p => p !== nearest);
+                current = nearest;
+            }
+            return route;
+        }
+
+        // Lógica de Amostragem Simples
+        function prepareSimpleSampling() {
+            // Escolhe 40 aleatórios de toda a população
+            let shuffled = [...population].sort(() => 0.5 - Math.random());
+            let selected = shuffled.slice(0, targetSamples);
+            
+            // O pesquisador tenta otimizar levemente o caminho para não ser caótico ao extremo (Nearest Neighbor global)
+            // Mesmo com NN, o custo será alto porque os pontos estão espalhados
+            return nearestNeighborRoute(selected);
+        }
+
+        // Lógica de Amostragem por Conglomerados
+        function prepareClusterSampling() {
+            // Passo 1: Escolhe 4 blocos aleatórios
+            let numClusters = 4;
+            let samplesPerCluster = targetSamples / numClusters; // 10 por bloco
+            
+            let shuffledBlocks = [...blocks].sort(() => 0.5 - Math.random());
+            let selectedBlocks = shuffledBlocks.slice(0, numClusters);
+            
+            let finalRoute = [];
+            
+            // Ordena os blocos por proximidade do centro ou ordem para evitar zigue-zague absurdo entre blocos
+            selectedBlocks.sort((a,b) => a.col - b.col);
+
+            let lastPoint = null;
+
+            // Passo 2: Dentro de cada bloco escolhido, escolhe 10 aleatórios
+            for (let block of selectedBlocks) {
+                let shuffledPts = [...block.points].sort(() => 0.5 - Math.random());
+                let clusterSamples = shuffledPts.slice(0, samplesPerCluster);
+                
+                // Organiza rota local do bloco
+                let localRoute = nearestNeighborRoute(clusterSamples, clusterSamples[0]);
+                
+                finalRoute = finalRoute.concat(localRoute);
+            }
+            return finalRoute;
+        }
+
+        // Iniciar Animação
+        function startSimulation(type) {
+            if (isAnimating) cancelAnimationFrame(animationReq);
+            
+            // Resetar estados
+            population.forEach(p => p.selected = false);
+            pathPointsDrawn = [];
+            accumulatedDistance = 0;
+            collectedSamples = 0;
+            currentPathIdx = 0;
+            uiDistance.textContent = "0";
+            uiSamples.textContent = "0";
+            
+            btnSimples.disabled = true;
+            btnConglomerado.disabled = true;
+            isAnimating = true;
+
+            if (type === 'simples') {
+                uiMethod.textContent = 'Aleatória Simples';
+                path = prepareSimpleSampling();
+            } else {
+                uiMethod.textContent = 'Conglomerados';
+                path = prepareClusterSampling();
+            }
+
+            // Ponto de partida
+            currentPos = { x: path[0].x, y: path[0].y };
+            pathPointsDrawn.push(path[0]);
+            path[0].selected = true;
+            collectedSamples++;
+            uiSamples.textContent = collectedSamples;
+
+            animate();
+        }
+
+        // Loop de Animação
+        function animate() {
+            if (currentPathIdx >= path.length - 1) {
+                // Fim da Animação
+                isAnimating = false;
+                btnSimples.disabled = false;
+                btnConglomerado.disabled = false;
+                drawState();
+                return;
+            }
+
+            let target = path[currentPathIdx + 1];
+            let dx = target.x - currentPos.x;
+            let dy = target.y - currentPos.y;
+            let distToTarget = Math.hypot(dx, dy);
+
+            if (distToTarget <= animSpeed) {
+                // Chegou no alvo
+                currentPos.x = target.x;
+                currentPos.y = target.y;
+                accumulatedDistance += distToTarget;
+                
+                pathPointsDrawn.push(target);
+                target.selected = true;
+                collectedSamples++;
+                uiSamples.textContent = collectedSamples;
+                
+                currentPathIdx++;
+                
+                // Atualizar Distancia na UI (Mapeamento fictício pixels -> km)
+                uiDistance.textContent = (accumulatedDistance / 20).toFixed(1);
+            } else {
+                // Mover em direção ao alvo
+                let vx = (dx / distToTarget) * animSpeed;
+                let vy = (dy / distToTarget) * animSpeed;
+                currentPos.x += vx;
+                currentPos.y += vy;
+                accumulatedDistance += animSpeed;
+                
+                uiDistance.textContent = (accumulatedDistance / 20).toFixed(1);
+            }
+
+            drawState();
+            animationReq = requestAnimationFrame(animate);
+        }
+
+        // Eventos de Botões
+        btnSimples.addEventListener('click', () => startSimulation('simples'));
+        btnConglomerado.addEventListener('click', () => startSimulation('conglomerado'));
+
+        // Boot
+        window.onload = () => {
+            initData();
+            drawState();
+        };
+
+    </script>
+</body>
+```

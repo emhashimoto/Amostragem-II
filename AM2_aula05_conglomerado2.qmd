@@ -1,0 +1,190 @@
+---
+title: "AM2"
+title-slide-attributes:
+    data-background-image: imagem-am2/fundo_am2.png
+    data-background-size: 100%
+    #data-background-opacity: "0.85"
+author: "Elizabeth Mie Hashimoto"
+institute: "elizabeth.hashimoto@unesp.br"
+format:
+  revealjs:
+    #incremental: true
+    footer: "Amostragem por conglomerado"
+    logo: imagem-am2/logo_unesp.png
+    slide-number: false
+    multiplex: false
+    theme: [solarized, tema.scss]
+    show-slide-number: print
+    controls: true
+    width: 1280
+    height: 720
+    css: [custom.css]
+    menu: true
+    chalkboard: true
+execute:
+  echo: false
+from: markdown+emoji
+---
+
+## ⏳Aula passada
+
+<br>
+
+:::{.fragment}
+- Estimação da média e sua variância: conglomerados de tamanhos iguais
+:::
+
+:::{.fragment}
+- Dimensionamento da amostra
+:::
+
+:::{.fragment}
+- Estimação da média e sua variância: probabilidade proporcional ao tamanho
+:::
+
+:::{.fragment}
+- Exemplos de aplicação
+:::
+
+:::{.fragment}
+- Atividade de entrega
+:::
+
+# Conglomerado em Dois Estágios {background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)"}
+
+
+## 🕰️ Até o momento {style="font-size: 0.75em;"}
+
+<iframe data-src="simulador_amostragem.html" width="100%" height="580px" style="border:none;"></iframe>
+
+## 🚧 Obstáculos {style="font-size: 0.75em;"}
+
+<br>
+
+::: {.fragment}
+
+<iframe data-src="motivacao_2e.html" width="100%" height="600px" style="border:none;"></iframe>
+
+:::
+
+## 💡 Solução {style="font-size: 0.75em;"}
+
+<iframe data-src="conglomerado_2e.html" width="100%" height="600px" style="border:none;"></iframe>
+
+
+## 📘 Dois estágios {style="font-size: 0.75em;"}
+
+:::{.justificado}
+**Exemplo 1**: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar $n = 10$ fábricas e aproximadamente $20\%$ das máquinas de cada fábrica. Utilizando os dados da Tabela 9.1, estime o tempo médio de inatividade por máquina. 
+:::
+
+---
+
+```{=html}
+<table>
+  <caption><strong>Tabela 1:</strong> Tempo de inatividade das máquinas de costura</caption>
+  <thead>
+    <tr>
+      <th>Fábrica</th>
+      <th>M<sub>i</sub></th>
+      <th>m<sub>i</sub></th>
+      <th>Tempo de inatividade (horas)</th>
+      <th>ȳ<sub>i</sub></th>
+      <th>s<sub>i</sub><sup>2</sup></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>50</td>
+      <td>10</td>
+      <td>5, 7, 9, 0, 11, 2, 8, 4, 3, 5</td>
+      <td>5.40</td>
+      <td>11.38</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>65</td>
+      <td>13</td>
+      <td>4, 3, 7, 2, 11, 0, 1, 9, 4, 3, 2, 1, 5</td>
+      <td>4.00</td>
+      <td>10.67</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>45</td>
+      <td>9</td>
+      <td>5, 6, 4, 11, 12, 0, 1, 8, 4</td>
+      <td>5.67</td>
+      <td>16.75</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>48</td>
+      <td>10</td>
+      <td>6, 4, 0, 1, 0, 9, 8, 4, 6, 10</td>
+      <td>4.80</td>
+      <td>13.29</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>52</td>
+      <td>10</td>
+      <td>11, 4, 3, 1, 0, 2, 8, 6, 5, 3</td>
+      <td>4.30</td>
+      <td>11.12</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>58</td>
+      <td>12</td>
+      <td>12, 11, 3, 4, 2, 0, 0, 1, 4, 3, 2, 4</td>
+      <td>3.83</td>
+      <td>14.88</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>42</td>
+      <td>8</td>
+      <td>3, 7, 6, 7, 8, 4, 3, 2</td>
+      <td>5.00</td>
+      <td>5.14</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>66</td>
+      <td>13</td>
+      <td>3, 6, 4, 3, 2, 2, 8, 4, 0, 4, 5, 6, 3</td>
+      <td>3.85</td>
+      <td>4.31</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>40</td>
+      <td>8</td>
+      <td>6, 4, 7, 3, 9, 1, 4, 5</td>
+      <td>4.88</td>
+      <td>6.13</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>56</td>
+      <td>11</td>
+      <td>6, 7, 5, 10, 11, 2, 1, 4, 0, 5, 4</td>
+      <td>5.00</td>
+      <td>11.80</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+```
+
+## 📘 Dimensionamento da amostra {style="font-size: 0.75em;"}
+
+## 📘 Exercício {style="font-size: 0.75em;"}
+
+---
+
+<div style="text-align: center;">
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExejZnamRyd3d2dGE5bm9tc2lrdDVzbDk2ODI1dnYxMDF1bjEwaHB1MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/lD76yTC5zxZPG/giphy.gif" width="70%">
+</div>
