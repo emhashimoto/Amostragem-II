@@ -77,7 +77,7 @@ from: markdown+emoji
 <br>
 
 :::{.justificado}
-**Exemplo 1**: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar $n = 10$ fábricas e aproximadamente $20\%$ das máquinas de cada fábrica. Os dados coletados são apresentados na Tabela 1. 
+**Exemplo 1**: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar $n = 3$ fábricas e aproximadamente $20\%$ das máquinas de cada fábrica. Os dados coletados são apresentados na Tabela 1. 
 
 Sabendo que o total de máquinas em todas as fábricas é igual a 4500, estime o tempo médio de inatividade e o intervalo de 95% de confiança. 
 :::
