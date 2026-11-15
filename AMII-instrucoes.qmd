@@ -1,0 +1,91 @@
+---
+title: "Instruções - Trabalho de Amostragem II 📋"
+format: 
+    html:
+        css: estilo.css
+---
+
+## Prazo de entrega
+
+- Prazo final de entrega do plano amostral: às **23:59 do dia 27/12/2026**.
+
+- Prazo final de entrega do resumo expandido: às **23:59 do dia 19/12/2026**.
+
+- **Não será aceito** resumos e planos fora do prazo ou entregue por e-mail.
+
+## Trabalho
+
+O objetivo deste projeto é desenvolver e executar uma pesquisa amostral para avaliar as condições de conservação dos exemplares pertencentes ao acervo geral da Biblioteca da UNESP.
+
+Para isso, cada equipe deverá elaborar um plano amostral, realizar a coleta de dados em campo e estimar as proporções de exemplares do acervo geral em cada categoria de conservação, utilizando a amostragem por conglomerados em dois estágios. As estimativas deverão ser acompanhadas de seus respectivos intervalos de confiança aproximados de 95%.
+
+Nesse contexto, o que a equipe deve fazer:
+
+- **Planejamento amostral**: definir a população de interesse, as unidades de amostragem e os conglomerados. Descrever como serão selecionados os conglomerados no primeiro estágio e os exemplares no segundo estágio, justificando as escolhas realizadas, conforme template disponível no moodle.
+
+- **Categorias de conservação**: estabelecer categorias e critérios claros e objetivos para classificar o estado de conservação dos exemplares, garantindo que todos os integrantes da equipe utilizem os mesmos critérios.
+
+- **Coleta de dados**: executar a seleção dos conglomerados e dos exemplares conforme o plano amostral, registrando as informações coletadas em uma planilha organizada.
+
+<!--
+- Organização e descrição dos dados: realizar a conferência, organização e identificação de possíveis inconsistências na base de dados. Apresentar uma análise descritiva das informações coletadas, incluindo a distribuição dos exemplares nas categorias de conservação.
+-->
+
+- **Análise estatística**: apresentar uma análise descritiva das informações coletadas. Estimar a proporção de exemplares em cada categoria de conservação e construir os respectivos intervalos de confiança de 95%.
+
+- **Resumo expandido**: apresentar os resultados e as considerações, seguindo o template disponível no moodle.
+
+<br>
+**Observações**: 
+
+- Não será permitido selecionar exemplares por conveniência ou substituir elementos selecionados sem justificativa metodológica. 
+
+- Todos os procedimentos de seleção e coleta deverão ser documentados para permitir a reprodução da pesquisa.
+
+- A equipe tem total liberdade para escolher o recurso computacional para auxiliar nas análises.
+
+## Avaliação
+
+A avaliação será de acordo com os seguintes itens:
+
+- **Plano amostral - 4,0 pontos**
+
+(0,25) **Estrutura do plnao**: o plano deverá obedecer rigorosamente à estrutura e à formatação do template fornecido.
+
+(1,50) **Planejamento e estrutura do plano amostral**: definição da população-alvo, unidades de amostragem, identificação dos conglomerados e descrição dos procedimentos de seleção nos dois estágios. Justificativa das decisões adotadas.
+
+<!--
+(1,00) Dimensionamento e seleção da amostra: definição do tamanho da amostra, critérios de alocação e procedimentos de seleção dos conglomerados e dos elementos amostrais.
+-->
+
+(1,00) **Categorias e procedimentos de coleta**: definição objetiva das categorias de conservação e descrição dos procedimentos que serão utilizados para a coleta de dados.
+
+(0,50) **Viabilidade e documentação**: apresentação de um plano amostral viável, claro e suficientemente detalhado para orientar a execução da pesquisa.
+
+- **Apresentação em grupo - 6,0 pontos**
+
+(0,25) **Estrutura do trabalho**: o trabalho deverá obedecer rigorosamente à estrutura e à formatação do template fornecido.
+
+(0,50) **Apresentação geral e escrita científica**: texto bem escrito, coeso, com linguagem científica e objetiva. Figuras e tabelas devidamente formatadas, identificadas e referenciadas no texto.
+
+(1,00) **Execução do plano amostral e coleta de dados**: aplicação adequada dos procedimentos de seleção nos dois estágios, execução da coleta e organização da base de dados.
+
+(2,00) **Estimação**: descrição e aplicação correta dos procedimentos de estimação para a amostragem por conglomerados em dois estágios. Apresentação das estimativas das proporções de exemplares em cada categoria de conservação e dos respectivos intervalos de confiança de 95%, considerando a estrutura do plano amostral.
+
+(1,00) **Apresentação dos resultados**: interpretação adequada das estimativas e dos intervalos de confiança, discussão da precisão dos resultados e das limitações da pesquisa.
+    
+<br>
+**Observações**: 
+
+- **Cópias de resumos** serão avaliadas como zero.
+
+- **Resumo mal feito** será avaliado como zero. 
+
+## Considerações finais
+
+- Utilizar códigos disponíveis na *internet* ou gerados por inteligência artificial (IA) será permitido. Entretanto, a escrita da análise deve ser de autoria do própria equipe. Citar a referência e/ou fazer uma declaração de uso de ferramenta de IA.
+
+- A equipe deverá entender os códigos utilizados na análise.
+
+- Textos gerados por ferramentas de inteligência artificial (IA) sem a declaração de utilização da ferramenta serão penalizados com desconto de cinco pontos na nota final.
+
