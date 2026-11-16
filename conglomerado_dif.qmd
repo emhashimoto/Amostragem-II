@@ -1,0 +1,215 @@
+---
+title: ""
+format: html
+---
+
+
+```{=html}
+<head>
+    <meta charset="UTF-8">
+    <title>Animação: Amostragem por Conglomerados</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            padding: 20px; 
+            background-color: #f8f9fa; 
+            color: #333;
+        }
+        #animation-container {
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            margin: 40px 0; 
+            height: 180px;
+        }
+        .cluster {
+            width: 120px; 
+            height: 170px; 
+            border: 3px solid #ced4da; 
+            border-radius: 10px;
+            display: flex; 
+            flex-wrap: wrap; 
+            align-content: flex-start; 
+            justify-content: center; 
+            gap: 6px; 
+            padding: 10px;
+            background-color: white; 
+            transition: all 0.5s ease-in-out;
+            position: relative;
+        }
+        .cluster-title {
+            width: 100%;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+        .cluster.selected { 
+            border-color: #28a745; 
+            transform: scale(1.1); 
+            box-shadow: 0 8px 16px rgba(40, 167, 69, 0.2); 
+        }
+        .cluster.selected .cluster-title {
+            color: #28a745;
+        }
+        .element {
+            width: 16px; 
+            height: 16px; 
+            background-color: #e9ecef; 
+            border-radius: 50%;
+            transition: background-color 0.5s ease-in-out, transform 0.3s;
+        }
+        .element.selected { 
+            background-color: #fd7e14; 
+            transform: scale(1.2);
+        }
+        #step-text { 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            margin: 20px auto; 
+            min-height: 60px; 
+            max-width: 800px;
+            color: #0056b3;
+        }
+        #formula-box { 
+            font-size: 1.3em; 
+            margin: 20px auto; 
+            min-height: 80px; 
+            max-width: 600px;
+            padding: 20px; 
+            background: white; 
+            border-radius: 10px; 
+            display: block; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        #formula-box.visible {
+            opacity: 1;
+        }
+        button { 
+            padding: 12px 24px; 
+            font-size: 1.1em; 
+            cursor: pointer; 
+            background-color: #0d6efd; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            margin-top: 20px;
+            transition: background-color 0.2s;
+        }
+        button:hover { 
+            background-color: #0b5ed7; 
+        }
+        button:disabled {
+            background-color: #a5c8fd;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="step-text">Clique em "Iniciar Animação" para compreender o processo de amostragem.</div>
+
+    <div id="animation-container">
+        <!-- Os conglomerados serão gerados via JavaScript -->
+    </div>
+
+    <div id="formula-box"></div>
+    
+    <button id="btn-start" onclick="startAnimation()">Iniciar Animação</button>
+
+    <script>
+        const container = document.getElementById('animation-container');
+        const stepText = document.getElementById('step-text');
+        const formulaBox = document.getElementById('formula-box');
+        const btnStart = document.getElementById('btn-start');
+
+        // Variáveis do modelo estatístico
+        const N = 4; // Número total de conglomerados na população
+        const M = 15; // Elementos por conglomerado (M barra)
+        const n = 2; // Conglomerados amostrados
+        const m = 5; // Elementos amostrados por conglomerado selecionado
+
+        function createClusters() {
+            container.innerHTML = '';
+            for (let i = 1; i <= N; i++) {
+                const clusterDiv = document.createElement('div');
+                clusterDiv.className = 'cluster';
+                clusterDiv.id = `cluster-${i}`;
+                
+                const title = document.createElement('div');
+                title.className = 'cluster-title';
+                title.innerText = `Conglomerado ${i}`;
+                clusterDiv.appendChild(title);
+
+                for (let j = 1; j <= M; j++) {
+                    const elDiv = document.createElement('div');
+                    elDiv.className = 'element';
+                    elDiv.id = `el-${i}-${j}`;
+                    clusterDiv.appendChild(elDiv);
+                }
+                container.appendChild(clusterDiv);
+            }
+        }
+
+        function startAnimation() {
+            btnStart.disabled = true;
+            createClusters();
+            formulaBox.classList.remove('visible');
+            formulaBox.innerHTML = '';
+                    
+            setTimeout(() => {
+                // Passo 2: Amostragem dos Conglomerados (Estágio 1)
+                //stepText.innerHTML = "Uma amostra aleatória de \\(n\\) conglomerados é selecionada.";
+                stepText.innerHTML = "";
+                document.getElementById('cluster-1').classList.add('selected');
+                document.getElementById('cluster-3').classList.add('selected');
+                MathJax.typesetPromise();
+            }, 4500);
+
+            setTimeout(() => {
+    // Passo 3: Amostragem dos Elementos (Estágio 2)
+    //stepText.innerHTML = "É comum retirar amostras de tamanho igual de cada conglomerado, logo \\(m_1 = m_2 = \\dots = m_n = m\\).";
+    const selectedClusters = [1, 3];
+    
+    selectedClusters.forEach(c => {
+        // Cria um conjunto para armazenar os índices sorteados sem repetição
+        const randomElements = new Set();
+        
+        // Continua sorteando até ter exatamente 'm' elementos diferentes
+        while (randomElements.size < m) {
+            const numeroSorteado = Math.floor(Math.random() * M) + 1;
+            randomElements.add(numeroSorteado);
+        }
+        
+        // Aplica a classe 'selected' aos elementos sorteados
+        randomElements.forEach(j => {
+            document.getElementById(`el-${c}-${j}`).classList.add('selected');
+        });
+    });
+    MathJax.typesetPromise();
+}, 9000);
+
+            setTimeout(() => {
+                // Passo 4: Fórmulas de Estimação
+                //stepText.innerHTML = "Sendo \\(y_{ij}\\) a \\(j\\)-ésima medida do \\(i\\)-ésimo conglomerado";
+                formulaBox.innerHTML = `
+                    Média Estimada:<br><br>
+                    \\[ \\hat{\\mu}_{I} = \\frac{1}{n} \\sum_{i=1}^{n} \\overline{y}_i = \\frac{1}{nm} \\sum_{i=1}^{n} \\sum_{j=1}^{m} y_{ij} \\]
+                `;
+                formulaBox.classList.add('visible');
+                MathJax.typesetPromise().then(() => {
+                    btnStart.disabled = false;
+                    btnStart.innerText = "Reiniciar Animação";
+                });
+            }, 14000);
+        }
+        
+        // Inicialização
+        createClusters();
+    </script>
+</body>
+```

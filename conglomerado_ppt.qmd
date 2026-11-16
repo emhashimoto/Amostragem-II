@@ -1,0 +1,380 @@
+---
+title: ""
+format: html
+---
+
+
+```{=html}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amostragem PPT - Hospitais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        
+        .bar-segment {
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 0.875rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .bar-segment:hover {
+            opacity: 0.8;
+        }
+
+        .marker {
+            position: absolute;
+            top: -30px;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .marker.show {
+            top: 0px;
+            opacity: 1;
+        }
+
+        .marker-number {
+            background: #1f2937;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .marker-arrow {
+            width: 0; 
+            height: 0; 
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid #1f2937;
+        }
+
+        /* Cores dos Hospitais */
+        .h-color-1 { background-color: #3b82f6; } /* Blue */
+        .h-color-2 { background-color: #10b981; } /* Green */
+        .h-color-3 { background-color: #eab308; } /* Yellow */
+        .h-color-4 { background-color: #ef4444; } /* Red */
+        .h-color-5 { background-color: #8b5cf6; } /* Purple */
+        .h-color-6 { background-color: #f97316; } /* Orange */
+
+        .row-highlight {
+            animation: pulse-bg 2s infinite;
+        }
+
+        @keyframes pulse-bg {
+            0% { background-color: rgba(0, 0, 0, 0); }
+            50% { background-color: rgba(253, 224, 71, 0.4); } /* yellow-300 with opacity */
+            100% { background-color: rgba(0, 0, 0, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 text-gray-800 flex items-center justify-center">
+
+    <div class="max-w-4xl w-full mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="p-6 md:p-8">
+            
+            <!-- Page 1: Table -->
+            <div id="page-1" class="transition-opacity duration-300 opacity-100">
+                <div class="overflow-x-auto border border-gray-200 rounded-lg shadow-sm mb-6">
+                    <table class="w-full text-left border-collapse bg-white" id="hospital-table">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-600 uppercase text-xs">
+                                <th class="px-4 py-3 rounded-tl-lg">Cor</th>
+                                <th class="px-4 py-3">Hospital</th>
+                                <th class="px-4 py-3 text-right">Pacientes</th>
+                                <th class="px-4 py-3 text-right rounded-tr-lg">Intervalo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100">
+                            <!-- Gerado via JS -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-bold bg-gray-50 border-t-2 border-gray-200">
+                                <td colspan="2" class="px-4 py-3 text-right">Total:</td>
+                                <td class="px-4 py-3 text-right text-blue-600">1559</td>
+                                <td class="px-4 py-3 text-right">1 - 1559</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                
+                <div class="flex justify-end mt-4">
+                    <button id="btn-next" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transform transition hover:-translate-y-0.5 active:translate-y-0 focus:outline-none flex items-center gap-2">
+                        Avançar para o Sorteio
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Page 2: Visualization & Controls -->
+            <div id="page-2" class="hidden opacity-0 transition-opacity duration-300">
+                <button id="btn-back" class="mb-4 text-gray-500 hover:text-gray-800 transition-colors flex items-center font-medium gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    Voltar para a Tabela
+                </button>
+
+                <div class="flex flex-col justify-center">
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-inner">
+                        <h2 class="text-xl font-bold mb-4 text-center">Régua de Probabilidade Cumulativa</h2>
+                        <p class="text-xs text-gray-500 text-center mb-10">A largura de cada bloco representa a proporção de pacientes do hospital em relação ao total (1559).</p>
+                        
+                        <!-- Área dos Marcadores Animados -->
+                        <div class="relative w-full h-8 mb-1" id="markers-area">
+                            <!-- Marcadores injetados aqui -->
+                        </div>
+
+                        <!-- Barra Empilhada -->
+                        <div class="w-full h-12 flex rounded-lg shadow overflow-hidden" id="ppt-bar">
+                            <!-- Segmentos injetados aqui -->
+                        </div>
+
+                        <div class="flex justify-between text-xs text-gray-400 mt-2 font-mono">
+                            <span>1</span>
+                            <span>1559</span>
+                        </div>
+
+                        <!-- Controle -->
+                        <div class="mt-10 text-center">
+                            <button id="draw-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                Realizar Sorteio de 3 Hospitais
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resultados -->
+                    <div id="results-container" class="mt-6 hidden opacity-0 transition-opacity duration-500">
+                        <h3 class="text-lg font-bold mb-3 text-gray-800 border-b pb-2">Resultados do Sorteio</h3>
+                        <ul id="results-list" class="space-y-2">
+                            <!-- Resultados injetados aqui -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const hospitals = [
+            { id: 1, patients: 328, rangeStart: 1, rangeEnd: 328, colorClass: 'h-color-1', tailwindColor: 'text-blue-500' },
+            { id: 2, patients: 109, rangeStart: 329, rangeEnd: 437, colorClass: 'h-color-2', tailwindColor: 'text-emerald-500' },
+            { id: 3, patients: 432, rangeStart: 438, rangeEnd: 869, colorClass: 'h-color-3', tailwindColor: 'text-yellow-500' },
+            { id: 4, patients: 220, rangeStart: 870, rangeEnd: 1089, colorClass: 'h-color-4', tailwindColor: 'text-red-500' },
+            { id: 5, patients: 280, rangeStart: 1090, rangeEnd: 1369, colorClass: 'h-color-5', tailwindColor: 'text-purple-500' },
+            { id: 6, patients: 190, rangeStart: 1370, rangeEnd: 1559, colorClass: 'h-color-6', tailwindColor: 'text-orange-500' }
+        ];
+
+        const TOTAL_PATIENTS = 1559;
+        const NUM_DRAWS = 3;
+        
+        // Elementos do DOM
+        const tableBody = document.querySelector('#hospital-table tbody');
+        const pptBar = document.getElementById('ppt-bar');
+        const markersArea = document.getElementById('markers-area');
+        const drawBtn = document.getElementById('draw-btn');
+        const resultsContainer = document.getElementById('results-container');
+        const resultsList = document.getElementById('results-list');
+
+        // Navigation elements
+        const page1 = document.getElementById('page-1');
+        const page2 = document.getElementById('page-2');
+        const btnNext = document.getElementById('btn-next');
+        const btnBack = document.getElementById('btn-back');
+
+        // Page Switch Logic
+        function switchPage(hidePage, showPage) {
+            hidePage.classList.remove('opacity-100');
+            hidePage.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                hidePage.classList.add('hidden');
+                showPage.classList.remove('hidden');
+                
+                // Force a browser reflow to allow the transition to play
+                void showPage.offsetWidth;
+                
+                showPage.classList.remove('opacity-0');
+                showPage.classList.add('opacity-100');
+            }, 300);
+        }
+
+        btnNext.addEventListener('click', () => switchPage(page1, page2));
+        btnBack.addEventListener('click', () => switchPage(page2, page1));
+
+        // Inicialização
+        function init() {
+            renderTable();
+            renderBar();
+        }
+
+        // Renderizar Tabela
+        function renderTable() {
+            tableBody.innerHTML = '';
+            hospitals.forEach(h => {
+                const tr = document.createElement('tr');
+                tr.id = `row-h${h.id}`;
+                tr.className = "hover:bg-gray-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-4 py-3">
+                        <div class="w-4 h-4 rounded-full ${h.colorClass} shadow-sm"></div>
+                    </td>
+                    <td class="px-4 py-3 font-medium text-gray-700">Hospital ${h.id}</td>
+                    <td class="px-4 py-3 text-right font-mono">${h.patients}</td>
+                    <td class="px-4 py-3 text-right font-mono text-gray-500">${h.rangeStart}-${h.rangeEnd}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        // Renderizar Barra Proporcional
+        function renderBar() {
+            pptBar.innerHTML = '';
+            hospitals.forEach(h => {
+                const widthPercentage = (h.patients / TOTAL_PATIENTS) * 100;
+                const segment = document.createElement('div');
+                segment.className = `bar-segment ${h.colorClass}`;
+                segment.style.width = `${widthPercentage}%`;
+                segment.title = `Hospital ${h.id}: ${h.patients} pacientes (${widthPercentage.toFixed(1)}%)`;
+                
+                // Só mostrar texto se houver espaço
+                if (widthPercentage > 8) {
+                    segment.innerText = `H${h.id}`;
+                }
+                
+                pptBar.appendChild(segment);
+            });
+        }
+
+        // Determinar qual hospital corresponde ao número sorteado
+        function getSelectedHospital(randomNumber) {
+            return hospitals.find(h => randomNumber >= h.rangeStart && randomNumber <= h.rangeEnd);
+        }
+
+        // Ação de Sorteio
+        drawBtn.addEventListener('click', () => {
+            // Prevenir cliques múltiplos
+            drawBtn.disabled = true;
+            drawBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            drawBtn.innerText = "Sorteando...";
+
+            // Limpar estados anteriores
+            markersArea.innerHTML = '';
+            resultsList.innerHTML = '';
+            resultsContainer.classList.add('hidden');
+            resultsContainer.classList.remove('opacity-100');
+            hospitals.forEach(h => {
+                const row = document.getElementById(`row-h${h.id}`);
+                row.classList.remove('row-highlight');
+                row.classList.remove('bg-yellow-50');
+            });
+
+            const draws = [];
+            
+            // Lógica de Sorteio
+            let currentDrawIndex = 0;
+
+            function executeNextDraw() {
+                if (currentDrawIndex < NUM_DRAWS) {
+                    // Sorteia entre 1 e TOTAL_PATIENTS
+                    const randNum = Math.floor(Math.random() * TOTAL_PATIENTS) + 1;
+                    const selectedHosp = getSelectedHospital(randNum);
+                    
+                    draws.push({ number: randNum, hospital: selectedHosp });
+                    
+                    animateDraw(randNum, selectedHosp, currentDrawIndex + 1);
+                    
+                    currentDrawIndex++;
+                    // Atraso entre os sorteios para efeito visual
+                    setTimeout(executeNextDraw, 1200); 
+                } else {
+                    // Fim dos sorteios
+                    setTimeout(() => {
+                        showResults(draws);
+                        drawBtn.disabled = false;
+                        drawBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        drawBtn.innerText = "Realizar Novo Sorteio";
+                    }, 500);
+                }
+            }
+
+            executeNextDraw();
+        });
+
+        // Animação de cada marcador
+        function animateDraw(number, hospital, drawOrder) {
+            // Calcular posição (em %)
+            const positionPercent = (number / TOTAL_PATIENTS) * 100;
+
+            const marker = document.createElement('div');
+            marker.className = 'marker';
+            marker.style.left = `${positionPercent}%`;
+            marker.innerHTML = `
+                <div class="marker-number">#${number}</div>
+                <div class="marker-arrow"></div>
+            `;
+            
+            markersArea.appendChild(marker);
+
+            // Reflow para ativar a transição CSS
+            void marker.offsetWidth;
+            
+            // Inicia a animação caindo
+            marker.classList.add('show');
+
+            // Destacar na tabela (breve delay para sincronizar com a seta caindo)
+            setTimeout(() => {
+                const row = document.getElementById(`row-h${hospital.id}`);
+                row.classList.add('row-highlight', 'bg-yellow-50');
+            }, 300);
+        }
+
+        // Mostrar Lista de Resultados
+        function showResults(draws) {
+            resultsContainer.classList.remove('hidden');
+            // Reflow
+            void resultsContainer.offsetWidth;
+            resultsContainer.classList.add('opacity-100');
+
+            draws.forEach((draw, index) => {
+                const li = document.createElement('li');
+                li.className = "flex items-center bg-white p-3 rounded shadow-sm border border-gray-100 transition-all hover:shadow-md";
+                li.innerHTML = `
+                    <div class="bg-gray-800 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold mr-4 shrink-0 shadow">
+                        ${index + 1}
+                    </div>
+                    <div class="flex-grow">
+                        <span class="text-sm text-gray-500 block">Número Sorteado: <strong class="text-gray-800">${draw.number}</strong></span>
+                        <span class="text-base font-semibold">Caiu no intervalo do <span class="${draw.hospital.tailwindColor}">Hospital ${draw.hospital.id}</span></span>
+                    </div>
+                    <div class="${draw.hospital.colorClass} w-3 h-10 rounded-sm ml-4 shadow-inner"></div>
+                `;
+                resultsList.appendChild(li);
+            });
+        }
+
+        // Iniciar
+        window.onload = init;
+    </script>
+</body>
+```

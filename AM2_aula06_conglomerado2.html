@@ -180,217 +180,148 @@ Elizabeth Mie Hashimoto
 <h1>Conglomerado em Dois Estágios</h1>
 
 </section>
-<section id="conglomerado-de-tamanhos-diferentes" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 Conglomerado de tamanhos diferentes</h2>
-<p><br></p>
-<div class="justificado">
-<p><strong>Exemplo 1</strong>: Uma fabricante de vestuário possui 90 fábricas distribuídas por todos os Estados Unidos e deseja estimar o número médio de horas que as máquinas de costura ficaram inativas para reparos nos últimos meses. Como as fábricas estão amplamente dispersas, ela decide utilizar amostragem por conglomerados, especificando cada fábrica como um conglomerado de máquinas. Cada fábrica contém muitas máquinas, e verificar o registro de reparos de cada máquina consumiria muito tempo. Portanto, ela utiliza amostragem em dois estágios. Há tempo e recursos suficientes para amostrar <span class="math inline">\(n = 3\)</span> fábricas e aproximadamente <span class="math inline">\(20\%\)</span> das máquinas de cada fábrica. Os dados coletados são apresentados na Tabela 1.</p>
-<p>Sabendo que o total de máquinas em todas as fábricas é igual a 4500, estime o tempo médio de inatividade e o intervalo de 95% de confiança.</p>
+<section id="conglomerado-de-tamanhos-iguais" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Conglomerado de tamanhos iguais</h2>
+<iframe data-src="conglomerado_dif.html" width="100%" height="600px" style="border:none;">
+</iframe>
+</section>
+<section class="slide level2">
+
+<p>A estimativa da variância de <span class="math inline">\(\hat{\mu}_{I}\)</span> é dada por</p>
+<p><span class="math display">\[\hat{V}(\hat{\mu}_{I}) = \left(1 - \frac{n}{N}\right) \frac{\text{MSB}}{nm} + \left(1 - \frac{m}{\bar{m}}\right) \left(\frac{1}{N}\right) \frac{\text{MSW}}{m},\]</span> em que</p>
+<div class="fragment">
+<p><span class="math display">\[\underbrace{\text{MSB} = \frac{m}{n-1} \sum_{i=1}^n (\overline{y}_i - \hat{\mu}_{I})^2}_{\text{quadrado médio do conglomerado}} \quad \text{e} \quad \underbrace{\text{MSW} = \frac{1}{n} \sum_{i=1}^n s_i^2}_{\text{quadrado médio do resíduo}}\]</span></p>
 </div>
 </section>
 <section class="slide level2">
 
-<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
-<caption><strong>Tabela 1:</strong> Tempo de inatividade das máquinas de costura</caption>
+<div class="justificado">
+<p><strong>Exemplo 1</strong>: Uma das principais medidas de controlo de qualidade na produção de baterias para automóveis é a espessura das placas de chumbo. Num estudo preliminar, selecionou-se uma amostra aleatória de 4 baterias (que atuam como conglomerados). Para cada bateria, realizaram-se exatamente 9 medições da espessura das placas negativas. As medições (em milésimos de polegada) encontram-se apresentadas abaixo:</p>
+</div>
+<ul>
+<li><p>Bateria 1: 97, 101, 97, 97, 99, 100, 96, 100, 100. <span class="math inline">\(\quad \bar{y}_1 = 98,6\)</span> e <span class="math inline">\(s_1^2 = 3,3\)</span></p></li>
+<li><p>Bateria 2: 95, 96, 96, 99, 96, 97, 95, 96, 100. <span class="math inline">\(\quad \bar{y}_2 = 96,7\)</span> e <span class="math inline">\(s_2^2 = 3,0\)</span></p></li>
+</ul>
+</section>
+<section class="slide level2">
+
+<ul>
+<li><p>Bateria 3: 99, 96, 97, 97, 96, 98, 99, 98, 100. <span class="math inline">\(\quad \bar{y}_3 = 97,8\)</span> e <span class="math inline">\(s_3^2 = 1,9\)</span></p></li>
+<li><p>Bateria 4: 94, 95, 97, 98, 97, 97, 97, 95, 96. <span class="math inline">\(\quad \bar{y}_4 = 96,2\)</span> e <span class="math inline">\(s_4^2 = 1,7\)</span></p></li>
+</ul>
+<p>Então, calcule a estimativa da média populacional e a estimativa da variância do estimador.</p>
+</section>
+<section id="dimensionamento-da-amostra" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Dimensionamento da amostra</h2>
+<p><br></p>
+<div class="justificado">
+<p><strong>Exemplo 2</strong>: Suponha que os dados apresentados no Exemplo 1 sejam provenientes de um estudo piloto. Com base nesses dados, deseja-se elaborar um plano de amostragem em dois estágios, de modo que a variância da estimativa da espessura média das placas seja igual a 0,1.</p>
+<p>Considere que o custo de abertura de uma bateria seja seis vezes maior do que o custo de realização de uma medição da espessura de uma placa.</p>
+<p>Determine o número de conglomerados (baterias) a serem selecionados e o número de placas a serem amostradas em cada conglomerado, de modo a atender à precisão desejada e minimizar o custo da amostragem.</p>
+</div>
+</section>
+<section id="probabilidade-proporcional-ao-tamanho" class="slide level2" style="font-size: 0.75em;">
+<h2>📘 Probabilidade proporcional ao tamanho</h2>
+<iframe data-src="conglomerado_ppt.html" width="100%" height="600px" style="border:none;">
+</iframe>
+</section>
+<section class="slide level2">
+
+<p>O estimador da média populacional é dada por</p>
+<p><span class="math display">\[\hat{\mu}_{\text{pps2}} = \frac{1}{n} \sum_{i=1}^{n} \bar{y}_i\]</span> <br></p>
+<div class="fragment">
+<p>A estimativa da variância de <span class="math inline">\(\hat{\mu}_{\text{pps2}}\)</span> é dada por</p>
+<p><span class="math display">\[\hat{V}(\hat{\mu}_{\text{pps2}}) = \frac{1}{n(n-1)} \sum_{i=1}^{n} (\bar{y}_i - \hat{\mu}_{\text{pps2}})^2\]</span></p>
+</div>
+</section>
+<section class="slide level2">
+
+<div class="justificado">
+<p><strong>Exemplo 3</strong>: Suponha que os hospitais selecionados tenham sido o 3, o 5 e o 6. Neles, serão analisados 10% dos prontuários dos pacientes internados para determinar quantos permanecerão no hospital por mais de dois dias. Os resultados estão apresentados na tabela a seguir:</p>
+</div>
+
+    <meta charset="UTF-8">
+    <style>
+        table {
+            width: 100%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            text-align: center;
+            font-family: serif; /* Semelhante à fonte da imagem */
+        }
+        th, td {
+            padding: 10px;
+        }
+        /* Bordas superior e inferior do cabeçalho */
+        thead {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+        }
+        /* Borda inferior da tabela */
+        tbody {
+            border-bottom: 1px solid black;
+        }
+    </style>
+
+
+
+    
+<table class="caption-top">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th">Fábrica</th>
-<th data-quarto-table-cell-role="th">M<sub>i</sub></th>
-<th data-quarto-table-cell-role="th">m<sub>i</sub></th>
-<th data-quarto-table-cell-role="th">Tempo de inatividade (horas)</th>
+<th data-quarto-table-cell-role="th">Hospital</th>
+<th data-quarto-table-cell-role="th">Número de pacientes</th>
+<th data-quarto-table-cell-role="th">Número de dias</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>1</td>
-<td>50</td>
-<td>10</td>
-<td>5, 7, 9, 0, 11, 2, 8, 4, 3, 5</td>
+<td>3</td>
+<td>43</td>
+<td>25</td>
 </tr>
 <tr class="even">
-<td>3</td>
-<td>45</td>
-<td>9</td>
-<td>5, 6, 4, 11, 12, 0, 1, 8, 4</td>
+<td>5</td>
+<td>28</td>
+<td>15</td>
 </tr>
 <tr class="odd">
-<td>7</td>
-<td>42</td>
+<td>6</td>
+<td>19</td>
 <td>8</td>
-<td>3, 7, 6, 7, 8, 4, 3, 2</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="m-desconhecido" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 <em>M</em> desconhecido</h2>
-<p><br></p>
-<div class="justificado">
-<p><strong>Exemplo 2</strong>: Uma Secretaria de Saúde Pública realizou um estudo para estimar o consumo diário de água por habitante (em litros) em um município composto por <span class="math inline">\(N = 100\)</span> bairros (conglomerados). O número total de habitantes do município (<span class="math inline">\(M\)</span>) é desconhecido.Foi adotada uma Amostragem por Conglomerados em Dois Estágios (AC2): no 1º estágio sorteou-se uma AAS de <span class="math inline">\(n = 4\)</span> bairros, e no 2º estágio sorteou-se uma de <span class="math inline">\(m_i\)</span> moradores em cada bairro selecionado. Os dados resumidos da pesquisa encontram-se na Tabela 2</p>
-<ol type="a">
-<li><p>Estime o consumo médio diário de água por habitante.</p></li>
-<li><p>Obtenha o intervalo de 95% de confiança aproximado para a média populacional de consumo de água.</p></li>
-</ol>
-</div>
+
+
+
+<p>Estime o tempo médio e sua variância.</p>
+</section></section>
+<section>
+<section id="trabalho-de-amostragem" class="title-slide slide level1 center" data-background-gradient="linear-gradient(135deg, #002B49 0%, #7A2E16 100%)">
+<h1>Trabalho de amostragem</h1>
+
 </section>
 <section class="slide level2">
 
-<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
-<caption><strong>Tabela 2:</strong> Consumo de água</caption>
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">Bairro</th>
-<th data-quarto-table-cell-role="th">Habitantes no bairro</th>
-<th data-quarto-table-cell-role="th">Moradores amostrados</th>
-<th data-quarto-table-cell-role="th">Média amostral (L/dia)</th>
-<th data-quarto-table-cell-role="th">Variância amostral</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>500</td>
-<td>25</td>
-<td>2,20</td>
-<td>0,16</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>800</td>
-<td>40</td>
-<td>1,80</td>
-<td>0,25</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>600</td>
-<td>30</td>
-<td>2,50</td>
-<td>0,20</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>500</td>
-<td>25</td>
-<td>2,00</td>
-<td>0,16</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="exercícios" class="slide level2" style="font-size: 0.75em;">
-<h2>📘 Exercícios</h2>
 <p><br></p>
-<div class="justificado">
-<p><strong>Exercício 1</strong>: Uma Secretaria de Educação deseja estimar a nota média de matemática (<span class="math inline">\(\bar{Y}\)</span>) dos alunos do 9º ano de um município. O município possui <span class="math inline">\(N = 50\)</span> escolas e sabe-se por registros cadastrais que o número total de alunos matriculados nessa série é <span class="math inline">\(M = 2000\)</span>. Adotou-se uma Amostragem por Conglomerado em Dois Estágios (AC2):</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><img src="fig-am2/mod.jpg" style="width:50%"></p>
 <ul>
-<li><p>1º Estágio: Selecionou-se uma amostra de <span class="math inline">\(n = 4\)</span> escolas.</p></li>
-<li><p>2º Estágio: Em cada escola <span class="math inline">\(i\)</span>, selecionou-se uma amostra de <span class="math inline">\(m_i = 5\)</span> alunos para realizar um teste padronizado.</p></li>
+<li>Instruções</li>
 </ul>
-<p>Os resultados obtidos foram:</p>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="https://media.giphy.com/media/IoP0PvbbSWGAM/giphy.gif" class="quarto-figure quarto-figure-left" style="width:80.0%"></p>
+</figure>
 </div>
-</section>
-<section class="slide level2">
-
-<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">Escola</th>
-<th data-quarto-table-cell-role="th">Alunos na escola</th>
-<th data-quarto-table-cell-role="th">Alunos amostrados</th>
-<th data-quarto-table-cell-role="th">Média da escola</th>
-<th data-quarto-table-cell-role="th">Variância amostral</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>40</td>
-<td>5</td>
-<td>7,0</td>
-<td>1,0</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>50</td>
-<td>5</td>
-<td>6,0</td>
-<td>1,5</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>30</td>
-<td>5</td>
-<td>8,0</td>
-<td>0,8</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>40</td>
-<td>5</td>
-<td>7,5</td>
-<td>1,2</td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<ol type="a">
-<li><p>Calcule a estimativa pontual da nota média populacional.</p></li>
-<li><p>Calcule o intervalo de 95% de confiança para a média populacional.</p></li>
-</ol>
-</section>
-<section class="slide level2">
-
-<div class="justificado">
-<p><strong>Exercício 2</strong>: Uma rede de supermercados possui <span class="math inline">\(N = 60\)</span> lojas na região metropolitana, mas o número total de itens vendidos em um determinado dia (<span class="math inline">\(M\)</span>) é desconhecido. Deseja-se estimar o valor médio de venda por item (em R$). Realizou-se uma AC2:</p>
-<ul>
-<li><p>Sorteou-se uma amostra de <span class="math inline">\(n = 4\)</span> lojas.</p></li>
-<li><p>Em cada loja <span class="math inline">\(i\)</span>, sorteou-se uma amostra de <span class="math inline">\(m_i\)</span> itens registrados nos caixas.</p></li>
-</ul>
 </div>
-<p>Os dados obtidos foram:</p>
-</section>
-<section class="slide level2">
-
-<table class="caption-top" style="border-top: 2px solid #000; border-bottom: 2px solid #000; border-collapse: collapse; width: 100%; text-align: center;">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">Loja</th>
-<th data-quarto-table-cell-role="th">Itens vendidos na loja</th>
-<th data-quarto-table-cell-role="th">Itens amostrados</th>
-<th data-quarto-table-cell-role="th">Valor médio (em R$)</th>
-<th data-quarto-table-cell-role="th">Variância amostral</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>400</td>
-<td>20</td>
-<td>53,00</td>
-<td>100,00</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>600</td>
-<td>30</td>
-<td>45,00</td>
-<td>144,00</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>400</td>
-<td>20</td>
-<td>47,00</td>
-<td>80,00</td>
-</tr>
-</tbody>
-</table>
-<p><br></p>
-<ol type="a">
-<li><p>Obtenha a estimativa de razão para a média populacion.</p></li>
-<li><p>Calcule o intervalo de 95% de confiança para a média populacional.</p></li>
-</ol>
+</div>
+</div></div>
 </section>
 <section class="slide level2">
 
@@ -617,6 +548,82 @@ Elizabeth Mie Hashimoto
         ]
       });
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
